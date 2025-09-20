@@ -1,6 +1,9 @@
 #include <iostream>
 #include "curses.h"
 
+const int MENU_HEIGHT = 30;
+const int MENU_WIDTH = 60 * 16/9;
+
 /**
  * Function to call at the start of the main.
  */
