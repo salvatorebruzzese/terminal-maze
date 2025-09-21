@@ -41,7 +41,7 @@ int menu_selection(int current_selection, WINDOW * menu_window) {
                 current_selection = 0;
             else ++current_selection; 
             break;
-        // The implementation of KEY_ENTER is unreliable on PDCurses 3.9
+        // The implementation of KEY_ENTER is unreliable in PDCurses 3.9
         case 10:
             return current_selection;
         }
