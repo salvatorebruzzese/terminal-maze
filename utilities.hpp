@@ -4,6 +4,9 @@
 const int MENU_HEIGHT = 15;
 const int MENU_WIDTH = 30;
 const int NUM_OPTIONS = 3;
+const int USER_HEIGHT = 5;
+const int USER_WIDTH = 20;
+const int MAX_USERNAME_LENGTH = 14;
 
 /**
  * Function to call at the start of the main.
