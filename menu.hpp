@@ -6,7 +6,7 @@ using std::string;
 /**
  *  Wrapper function that contains menu logic.
  */
-void menu();
+void menu(string current_player);
 
 /**
  * Function to select one of the options on the menu.
