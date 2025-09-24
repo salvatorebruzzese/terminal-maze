@@ -5,8 +5,8 @@
 int main(int argc, char ** argv) {
     init();
 
-    ask_username();
-    menu();
+    string current_player = ask_username();
+    menu(current_player);
     
     endwin();
 }

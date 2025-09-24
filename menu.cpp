@@ -1,7 +1,8 @@
 #include "menu.hpp"
+#include "ranking.hpp"
 #include "utilities.hpp"
 
-void menu() {
+void menu(string current_player) {
 
     int current_selection = 0;
     WINDOW * menu_window = new_boxed_window(MENU_HEIGHT, MENU_WIDTH);
@@ -14,6 +15,9 @@ void menu() {
         current_selection = menu_selection(current_selection, menu_window);
         switch (current_selection)
         {
+        case 1:
+            show_ranking();
+            break;
         case 2:
             delwin(menu_window);
             return;
@@ -54,11 +58,9 @@ int menu_selection(int current_selection, WINDOW * menu_window) {
 
 void visualize_menu(int current_selection, WINDOW * menu_window) {
 
-    string anchors[NUM_OPTIONS] = {"New maze", "Rankings", "Exit"};
+    string anchors[NUM_OPTIONS] = {"New maze", "Ranking", "Exit"};
 
-    // It could be needed to add more options; the extra two accounts for
-    // the top and bottom borders.
-    int y_position = MENU_HEIGHT/(NUM_OPTIONS + 2);
+    int y_position = MENU_HEIGHT/(NUM_OPTIONS + TOP_BOTTOM_BORDERS);
     int x_position = MENU_WIDTH/2;
 
     wclear(menu_window);
