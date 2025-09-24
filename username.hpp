@@ -3,4 +3,4 @@
 #include "curses.h"
 using std::string;
 
-void ask_username();
+string ask_username();
