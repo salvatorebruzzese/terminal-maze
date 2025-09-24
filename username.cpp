@@ -1,8 +1,8 @@
 #include "utilities.hpp"
 #include "username.hpp"
 
-void ask_username() {
-    WINDOW * username_window = new_boxed_window(USER_HEIGHT, USER_WIDTH);
+string ask_username() {
+    WINDOW * username_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
 
     string dialogue = "Enter username";
     string placeholders = "______________";
@@ -21,4 +21,6 @@ void ask_username() {
     new_username.resize((new_username.length()));
 
     noecho(); curs_set(0); delwin(username_window);
+
+    return new_username;
 }
