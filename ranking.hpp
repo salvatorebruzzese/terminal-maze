@@ -3,7 +3,7 @@ namespace fs = std::filesystem;
 #include <fstream>
 #include <string>
 using std::string;
-#include "external/nlohmann/json.hpp"
+#include "json.hpp"
 using json = nlohmann::json;
 
 void show_ranking();
