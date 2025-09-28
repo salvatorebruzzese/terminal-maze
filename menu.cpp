@@ -2,6 +2,13 @@
 #include "ranking.hpp"
 #include "utilities.hpp"
 
+constexpr int NUM_MENU_OPTIONS  = 3;
+constexpr int FIRST_MENU_OPTION = 0;
+constexpr int LAST_MENU_OPTION  = NUM_MENU_OPTIONS - 1;
+constexpr int TOP_BOTTOM_BORDERS = 2;
+constexpr int MENU_HEIGHT = 15;
+constexpr int MENU_WIDTH = 30;
+
 void menu(string current_player) {
 
     int current_selection = 0;
@@ -15,13 +22,16 @@ void menu(string current_player) {
         current_selection = menu_selection(current_selection, menu_window);
         switch (current_selection)
         {
-        case 1:
-            show_ranking();
-            break;
-        case 2:
-            delwin(menu_window);
-            return;
-            break;
+            case 0: 
+                /* start new maze */ 
+                break;
+            case 1: 
+                show_ranking();
+                wrefresh(menu_window);
+                break;
+            case 2:
+                delwin(menu_window);
+                return;
         }
     }
     
@@ -29,49 +39,51 @@ void menu(string current_player) {
 
 int menu_selection(int current_selection, WINDOW * menu_window) {
     
+    // Menu wrap-around logic; ensures non-negative result even if selected < 0.
+    auto wrap = [](int selected, int options) -> int {
+        return ((selected % options) + options) % options;
+    };
+
     while (true)
     {
         visualize_menu(current_selection, menu_window);
-        chtype new_selection = wgetch(menu_window);
+        int new_selection = wgetch(menu_window);
 
         switch (new_selection)
         {
-        case KEY_UP:
-            if (current_selection <= 0)
-                current_selection = NUM_OPTIONS - 1;
-            else --current_selection; 
-            break;
-        case KEY_DOWN:
-            if (current_selection >= NUM_OPTIONS - 1)
-                current_selection = 0;
-            else ++current_selection; 
-            break;
-        case KEY_ENTER:
-            return current_selection;
-            break;
-        // The implementation of KEY_ENTER is unreliable in PDCurses 3.9
-        case '\n':
-            return current_selection;
+            case KEY_UP:
+                current_selection = wrap(current_selection - 1, NUM_MENU_OPTIONS);
+                break;
+            case KEY_DOWN:
+                current_selection = wrap(current_selection + 1, NUM_MENU_OPTIONS);
+                break;
+            // The implementation of KEY_ENTER is unreliable in PDCurses 3.9.
+            case KEY_ENTER:
+            case '\n':
+            case '\r':
+                return current_selection;
         }
     }
 }
 
 void visualize_menu(int current_selection, WINDOW * menu_window) {
 
-    string anchors[NUM_OPTIONS] = {"New maze", "Ranking", "Exit"};
+    static string anchors[NUM_MENU_OPTIONS] = {"New maze", "Leaderboard", "Exit"};
 
-    int y_position = MENU_HEIGHT/(NUM_OPTIONS + TOP_BOTTOM_BORDERS);
-    int x_position = MENU_WIDTH/2;
+    int y_position = MENU_HEIGHT/(NUM_MENU_OPTIONS + TOP_BOTTOM_BORDERS);
+    int x_position = MENU_WIDTH /2;
 
     wclear(menu_window);
     box(menu_window, ACS_VLINE, ACS_HLINE);
 
-    for (int i = 0; i < NUM_OPTIONS; i++) {
+    for (int i = FIRST_MENU_OPTION; i <= LAST_MENU_OPTION; i++) {
         if (current_selection == i)
             wattron(menu_window, A_REVERSE);
 
-        // Moving the cursor to the left to center the option string
-        wmove(menu_window, y_position * (i + 1) + 1, x_position - static_cast<int>(anchors[i].length())/2);
+        // Moving the cursor to the left to center the option string.
+        wmove(menu_window,
+             y_position * (i + 1) + 1,
+             x_position - static_cast<int>(anchors[i].length())/2);
         wprintw(menu_window, "%s", anchors[i].c_str());
         
         wattroff(menu_window, A_REVERSE);
