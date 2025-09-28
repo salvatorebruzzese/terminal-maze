@@ -13,7 +13,7 @@ add_executable(maze
     src/ranking.cpp)
 
 set(PDCURSES_ROOT "${CMAKE_SOURCE_DIR}/third_party/PDCurses")
-set(NLOHMANN_ROOT ${CMAKE_SOURCE_DIR}/third_party/nlohmann)
+set(NLOHMANN_ROOT "${CMAKE_SOURCE_DIR}/third_party/nlohmann")
 
 target_include_directories(maze PRIVATE
     "${CMAKE_SOURCE_DIR}/include"
