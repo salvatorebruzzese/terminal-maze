@@ -1,16 +1,14 @@
 #include "utilities.hpp"
 #include "ranking.hpp"
 
-void show_ranking() {
+constexpr int WARNING_ROW = 2;
+constexpr int WARNING_COL = 2;
 
-    // The column and row to print the warning to.
-    constexpr int WARNING_COL = 2;
-    constexpr int WARNING_ROW = 2;
+void show_ranking() {
     
     if (!fs::exists("data.json")) {
-        WINDOW * no_ranking = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
-        mvwprintw(no_ranking, WARNING_ROW, WARNING_COL, "No ranking data");
-        wgetch(no_ranking);
+        show_error("No ranking data");
+        return;
     }
 
     std::ifstream f("data.json");
@@ -22,4 +20,12 @@ void show_ranking() {
 
 void update_ranking(string current_player, int time) {
 
+}
+
+void show_error(string error) {
+    
+    WINDOW * error_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
+    mvwprintw(error_window, WARNING_ROW, WARNING_COL, error.c_str());
+    wgetch(error_window);
+    delwin(error_window);
 }
