@@ -23,7 +23,7 @@ void menu(string current_player) {
         switch (current_selection)
         {
             case 0: 
-                /* start new maze */ 
+                // Start new maze
                 break;
             case 1: 
                 show_ranking();
@@ -71,7 +71,7 @@ void visualize_menu(int current_selection, WINDOW * menu_window) {
     static string anchors[NUM_MENU_OPTIONS] = {"New maze", "Leaderboard", "Exit"};
 
     int y_position = MENU_HEIGHT/(NUM_MENU_OPTIONS + TOP_BOTTOM_BORDERS);
-    
+
     wclear(menu_window);
     box(menu_window, ACS_VLINE, ACS_HLINE);
 

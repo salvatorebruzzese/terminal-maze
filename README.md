@@ -18,4 +18,4 @@ cmake --build build
 ```
 
 ## To-do
-- Update CM\ake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
+- Update CMake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
