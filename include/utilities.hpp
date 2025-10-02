@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <string>
 using std::string;
 #include "curses.h"
@@ -6,6 +7,9 @@ using std::string;
 constexpr int POPUP_HEIGHT = 5;
 constexpr int POPUP_WIDTH = 20;
 constexpr int MAX_USERNAME_LENGTH = 14;
+
+// Centers a string horizontally.
+int center_string(int width, const char * str);
 
 // Function to call at the start of main.
 void init();

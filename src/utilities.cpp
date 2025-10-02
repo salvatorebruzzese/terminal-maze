@@ -1,5 +1,9 @@
 #include "utilities.hpp"
 
+int center_string(int width, const char * str) {
+    return width/2 - strlen(str)/2;
+}
+
 void init() {
     initscr();
     curs_set(0);
