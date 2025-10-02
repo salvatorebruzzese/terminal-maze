@@ -1,3 +1,4 @@
+#include "game.hpp"
 #include "menu.hpp"
 #include "ranking.hpp"
 #include "utilities.hpp"
@@ -23,7 +24,8 @@ void menu(string current_player) {
         switch (current_selection)
         {
             case 0: 
-                // Start new maze
+                game();
+                wrefresh(menu_window);
                 break;
             case 1: 
                 show_ranking();
