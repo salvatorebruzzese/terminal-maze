@@ -6,11 +6,10 @@ string ask_username() {
     WINDOW * username_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
 
     string dialogue     = "Enter username";
-    string placeholders = "______________";
 
-    mvwprintw(username_window, 1, 3, dialogue.data());
-    
-    mvwprintw(username_window, 3, 3, placeholders.data());
+    mvwprintw(username_window, 1, 3, dialogue.c_str());
+    mvwprintw(username_window, 3, 2, "<");
+    mvwprintw(username_window, 3, 17, ">");
     
     wrefresh(username_window);
 
