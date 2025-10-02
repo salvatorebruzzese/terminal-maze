@@ -6,11 +6,14 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(maze
+    src/wilson.cpp
+    src/game.cpp
     src/main.cpp
     src/menu.cpp
+    src/ranking.cpp
     src/utilities.cpp
     src/username.cpp
-    src/ranking.cpp)
+    )
 
 set(PDCURSES_ROOT "${CMAKE_SOURCE_DIR}/third_party/PDCurses")
 set(NLOHMANN_ROOT "${CMAKE_SOURCE_DIR}/third_party/nlohmann")

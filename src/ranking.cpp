@@ -6,7 +6,7 @@ constexpr int WARNING_COL = 2;          // The column where the error is printed
 constexpr int RANKING_HEIGHT = 13;      // The height of the ranking window.
 constexpr int RANKING_WIDTH = 20;       // The width of the ranking window.
 constexpr int PLAYERS_PRINT_COL = 3;    // The column where player names are printed.
-constexpr int PLAYERS_PRINT_ROW = 2;
+constexpr int PLAYERS_PRINT_ROW = 2;    // The row where player names are printed.
 const char * TOP_TEN = " Top 10 ";
 
 void show_ranking() {
