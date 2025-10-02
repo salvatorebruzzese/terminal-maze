@@ -1,6 +1,10 @@
+#ifndef MENU_H
+#define MENU_H
+
 #include <iostream>
 #include <string>
 #include "curses.h"
+
 using std::string;
 
 // Wrapper function that contains menu logic.
@@ -25,3 +29,5 @@ int menu_selection(int current_selection, WINDOW * menu_window);
  * @param menu_window           Pointer to the menu window.
  */
 void visualize_menu(int current_selection, WINDOW * menu_window);
+
+#endif  // MENU_H
