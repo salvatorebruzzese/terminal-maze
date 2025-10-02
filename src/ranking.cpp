@@ -1,12 +1,13 @@
 #include "utilities.hpp"
 #include "ranking.hpp"
 
-constexpr int WARNING_ROW = 2;
-constexpr int WARNING_COL = 2;
-constexpr int RANKING_HEIGHT = 8;
-constexpr int RANKING_WIDTH = 20;
-constexpr int PRINT_COL = 3;
-constexpr int MAX_PLAYERS = 5;
+constexpr int WARNING_ROW = 2;      // The row where the error is printed.
+constexpr int WARNING_COL = 2;      // The column where the error is printed.
+constexpr int RANKING_HEIGHT = 13;  // The height of the ranking window.
+constexpr int RANKING_WIDTH = 20;   // The width of the ranking window.
+constexpr int PLAYERS_PRINT_COL = 3;        // The column where player names are printed.
+constexpr int PLAYERS_PRINT_ROW = 2;
+const char * TOP_TEN = " Top 10 ";
 
 void show_ranking() {
     
@@ -22,6 +23,7 @@ void show_ranking() {
         return;
     }
 
+    // Returns the read position at the beginning of the file.
     f.clear();
     f.seekg(0, std::ios::beg);
     
@@ -29,26 +31,32 @@ void show_ranking() {
 
     WINDOW * ranking_window = new_boxed_window(RANKING_HEIGHT, RANKING_WIDTH);
     
-    mvwprintw(ranking_window, 1, 1, "Top 5");
-
-    int PRINT_ROW = 2;
-    int cycle = 0;
-
-    for (json::iterator it = ranking.begin();
-         it != ranking.end() && cycle < MAX_PLAYERS;
-         it++, PRINT_ROW++, cycle++) {
-        int score = it->at("score").get<int>();
-        string player = it->at("player").get<string>();
-
-        mvwprintw(ranking_window, PRINT_ROW, PRINT_COL, "%s: %d", player.c_str(), score);
-    }
-
-    wrefresh(ranking_window);
+    print_top_ten(ranking_window, ranking);
 
     wgetch(ranking_window);
 
     f.close();
     delwin(ranking_window);
+}
+
+void print_top_ten(WINDOW * ranking_window, json object) {
+    auto it = object.begin();
+    int number_of_cycles = 0;
+    int current_row = PLAYERS_PRINT_ROW;
+
+    mvwprintw(ranking_window, 0, center_string(RANKING_WIDTH, TOP_TEN), "%s", TOP_TEN);
+
+    while (it != object.end() && number_of_cycles < 10) {
+        
+        int time = it->at("time").get<int>();
+        string player = it->at("player").get<string>();
+        mvwprintw(ranking_window, current_row, PLAYERS_PRINT_COL, "%s: %d", player.c_str(), time);
+
+        it++;
+        current_row++;
+        number_of_cycles++;
+    }
+    wrefresh(ranking_window);
 }
 
 void update_ranking(string current_player, int time) {
