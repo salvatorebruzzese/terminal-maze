@@ -1,8 +1,12 @@
+#ifndef UTILITIES_H
+#define UTILITIES_H
+
 #include <iostream>
 #include <cstring>
 #include <string>
-using std::string;
 #include "curses.h"
+
+using std::string;
 
 constexpr int POPUP_HEIGHT = 5;
 constexpr int POPUP_WIDTH = 20;
@@ -20,3 +24,5 @@ void init();
  * @return WINDOW * on success, or nullptr on failure.
  */
 WINDOW * new_boxed_window(int height, int width);
+
+#endif // UTILITIES_H
