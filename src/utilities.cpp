@@ -5,25 +5,40 @@ int center_string(int width, const char * str) {
 }
 
 void init() {
-    initscr();
+    if (!initscr()) {
+        fprintf(stderr, "Failed to initialize curses\n");
+        exit(1);
+    }
+
     curs_set(0);
     noecho();
     cbreak();
     refresh();
 }
 
-WINDOW * new_boxed_window(int height, int width) {
-    int screen_height = getmaxy(stdscr);
-    int screen_width = getmaxx(stdscr);
+WINDOW* new_boxed_window(int height, int width) {
+    if (height < 2 || width < 2) return nullptr;
 
-    if (height > screen_height || width > screen_width)
+    int sh, sw;
+    getmaxyx(stdscr, sh, sw);
+
+    if (height > sh || width > sw) return nullptr;
+
+    int y = (sh - height) / 2;
+    int x = (sw - width) / 2;
+
+    WINDOW* win = newwin(height, width, y, x);
+    if (!win) return nullptr;
+
+    if (box(win, ACS_VLINE, ACS_HLINE) == ERR) {
+        delwin(win);
         return nullptr;
-    
-    WINDOW * win = newwin(height, width, screen_height/2 - height/2, screen_width/2 - width/2);
+    }
 
-    box(win, ACS_VLINE, ACS_HLINE);
-
-    wrefresh(win);
+    if (wrefresh(win) == ERR) {
+        delwin(win);
+        return nullptr;
+    }
 
     return win;
 }
