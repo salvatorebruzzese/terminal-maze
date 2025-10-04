@@ -1,5 +1,5 @@
 # Terminal maze
-Terminal game that uses Wilson's algorithm to generate unbiased mazes.
+Terminal game that uses [Wilson's algorithm](https://www.cs.cmu.edu/~15859n/RelatedWork/RandomTrees-Wilson.pdf) to generate unbiased mazes.
 
 ## Dependencies
 In folder ```terminal-maze/third_party```, provide the following libraries:

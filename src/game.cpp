@@ -1,4 +1,3 @@
-#include "curses.h"
 #include "game.hpp"
 #include "utilities.hpp"
 

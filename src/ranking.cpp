@@ -1,5 +1,14 @@
-#include "utilities.hpp"
+#include <filesystem>
+#include <fstream>
+#include <string>
+#include "json.hpp"
 #include "ranking.hpp"
+#include "utilities.hpp"
+
+using json = nlohmann::json;
+using string = std::string;
+
+namespace fs = std::filesystem;
 
 constexpr int WARNING_ROW = 2;          // The row where the error is printed.
 constexpr int WARNING_COL = 2;          // The column where the error is printed.
@@ -39,7 +48,7 @@ void show_ranking() {
     delwin(ranking_window);
 }
 
-void print_top_ten(WINDOW * ranking_window, json object) {
+void print_top_ten(WINDOW * ranking_window, const json & object) {
     auto it = object.begin();
     int number_of_cycles = 0;
     int current_row = PLAYERS_PRINT_ROW;
@@ -59,14 +68,14 @@ void print_top_ten(WINDOW * ranking_window, json object) {
     wrefresh(ranking_window);
 }
 
-void update_ranking(string current_player, int time) {
+void update_ranking(const string & current_player, int time) {
 
 }
 
-void show_error(string error) {
+void show_error(const string & error) {
     
     WINDOW * error_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
-    mvwprintw(error_window, WARNING_ROW, WARNING_COL, error.c_str());
+    mvwprintw(error_window, WARNING_ROW, WARNING_COL, "%s", error.c_str());
     wgetch(error_window);
     delwin(error_window);
 }
