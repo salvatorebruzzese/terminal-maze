@@ -28,6 +28,7 @@ void show_ranking() {
     std::ifstream f("data.json");
 
     if (!json::accept(f)) {
+        show_error("Invalid JSON");
         f.close();
         return;
     }
@@ -49,6 +50,7 @@ void show_ranking() {
 }
 
 void print_top_ten(WINDOW * ranking_window, const json & object) {
+
     auto it = object.begin();
     int number_of_cycles = 0;
     int current_row = PLAYERS_PRINT_ROW;
@@ -56,15 +58,17 @@ void print_top_ten(WINDOW * ranking_window, const json & object) {
     mvwprintw(ranking_window, 0, center_string(RANKING_WIDTH, TOP_TEN), "%s", TOP_TEN);
 
     while (it != object.end() && number_of_cycles < 10) {
+
+        int time = it->value("time", -1);
+        std::string player = it->value("player", "ERROR");
         
-        int time = it->at("time").get<int>();
-        string player = it->at("player").get<string>();
         mvwprintw(ranking_window, current_row, PLAYERS_PRINT_COL, "%s: %d", player.c_str(), time);
 
         it++;
         current_row++;
         number_of_cycles++;
     }
+
     wrefresh(ranking_window);
 }
 
@@ -75,7 +79,9 @@ void update_ranking(const string & current_player, int time) {
 void show_error(const string & error) {
     
     WINDOW * error_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
-    mvwprintw(error_window, WARNING_ROW, WARNING_COL, "%s", error.c_str());
+    mvwprintw(error_window,
+        WARNING_ROW, center_string(POPUP_WIDTH, error.c_str()),
+        "%s", error.c_str());
     wgetch(error_window);
     delwin(error_window);
 }

@@ -1,4 +1,9 @@
+#include <cstring>
+#include <string>
+#include "curses.h"
 #include "utilities.hpp"
+
+using std::string;
 
 int center_string(int width, const char * str) {
     return width/2 - strlen(str)/2;
