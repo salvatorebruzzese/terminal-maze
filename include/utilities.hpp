@@ -3,10 +3,7 @@
 
 #include <iostream>
 #include <cstring>
-#include <string>
 #include "curses.h"
-
-using std::string;
 
 constexpr int POPUP_HEIGHT = 5;
 constexpr int POPUP_WIDTH = 20;
