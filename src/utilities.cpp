@@ -35,12 +35,8 @@ WINDOW* new_boxed_window(int height, int width) {
     WINDOW* win = newwin(height, width, y, x);
     if (!win) return nullptr;
 
-    if (box(win, ACS_VLINE, ACS_HLINE) == ERR) {
-        delwin(win);
-        return nullptr;
-    }
-
-    if (wrefresh(win) == ERR) {
+    if (wborder(win, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK,
+                     ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK) == ERR || wrefresh(win) == ERR) {
         delwin(win);
         return nullptr;
     }
