@@ -76,6 +76,34 @@ void print_top_ten(WINDOW * ranking_window, const json & object) {
 
 void update_ranking(const string & current_player, int time) {
 
+    fs::path data_path = get_data_path();
+    json ranking_data;
+
+    std::ifstream input_file(data_path);
+    if (input_file.is_open() && input_file.peek() != std::ifstream::traits_type::eof()) {
+        try {
+            input_file >> ranking_data;
+        } catch (json::parse_error& e) {
+            ranking_data = json::array();
+        }
+    } else {
+        ranking_data = json::array();
+    }
+
+    json new_entry = {
+        {"player", current_player},
+        {"time", time}
+    };
+    ranking_data.push_back(new_entry);
+
+    std::sort(ranking_data.begin(), ranking_data.end(), 
+        [](const json& a, const json& b) {
+            return a["time"] < b["time"]; 
+        }
+    );
+
+    std::ofstream output_file(data_path);
+    output_file << ranking_data.dump(4);
 }
 
 void show_error(const string & error) {
