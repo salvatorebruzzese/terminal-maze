@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <filesystem>
 #include "curses.h"
 
 constexpr int POPUP_HEIGHT = 5;
@@ -21,5 +22,8 @@ void init();
  * @return WINDOW * on success, or nullptr on failure.
  */
 WINDOW * new_boxed_window(int height, int width);
+
+// Get the absolute path of the data.json file.
+std::filesystem::path get_data_path();
 
 #endif // UTILITIES_H

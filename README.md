@@ -24,4 +24,3 @@ cmake --build build
 - Add a timer header on the gaming window.
 - Add a a pause menu.
 - Add function to update rankings.
-- Add a function to get absolute path of the data.json file.

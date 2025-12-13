@@ -1,9 +1,13 @@
 #include <cstring>
+#include <filesystem>
+#include <windows.h>
 #include <string>
 #include "curses.h"
 #include "utilities.hpp"
 
 using std::string;
+
+namespace fs = std::filesystem;
 
 int center_string(int width, const char * str) {
     return width/2 - strlen(str)/2;
@@ -42,4 +46,16 @@ WINDOW* new_boxed_window(int height, int width) {
     }
 
     return win;
+}
+
+fs::path get_data_path() {
+
+    char buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, buffer, MAX_PATH); // Get executable's path
+
+    fs::path gameDir = fs::path(buffer).parent_path(); // Get the folder the executables is running in
+
+    fs::path dataFile = gameDir / "data.json";  // Append data.json
+
+    return dataFile;
 }

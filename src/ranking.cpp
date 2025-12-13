@@ -20,12 +20,14 @@ const char * TOP_TEN = " Top 10 ";
 
 void show_ranking() {
     
-    if (!fs::exists("data.json")) {
+    fs::path data_path = get_data_path();
+
+    if (!fs::exists(data_path)) {
         show_error("No ranking data");
         return;
     }
 
-    std::ifstream f("data.json");
+    std::ifstream f(data_path);
 
     if (!json::accept(f)) {
         show_error("Invalid JSON");
