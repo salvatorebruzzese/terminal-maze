@@ -19,3 +19,9 @@ cmake --build build
 
 ## To-do
 - Update CMake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
+- Add game cycle function in game.cpp.
+- Add maze-generation algorithm in wilson.cpp.
+- Add a timer header on the gaming window.
+- Add a a pause menu.
+- Add function to update rankings.
+- Add a function to get absolute path of the data.json file.
