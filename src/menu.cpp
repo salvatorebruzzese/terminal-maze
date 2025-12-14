@@ -24,7 +24,7 @@ void menu(string current_player) {
         switch (current_selection)
         {
             case 0: 
-                game();
+                game(current_player);
                 wrefresh(menu_window);
                 break;
             case 1: 

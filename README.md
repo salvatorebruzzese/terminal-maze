@@ -23,4 +23,3 @@ cmake --build build
 - Add maze-generation algorithm in wilson.cpp.
 - Add a timer header on the gaming window.
 - Add a a pause menu.
-- Add function to update rankings.
