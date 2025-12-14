@@ -1,5 +1,5 @@
 # Terminal maze
-Terminal game that uses [Wilson's algorithm](https://www.cs.cmu.edu/~15859n/RelatedWork/RandomTrees-Wilson.pdf) to generate unbiased mazes.
+Terminal game to solve mazes.
 
 ## Dependencies
 In folder ```terminal-maze/third_party```, provide the following libraries:
@@ -20,6 +20,6 @@ cmake --build build
 ## To-do
 - Update CMake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
 - Add game cycle function in game.cpp.
-- Add maze-generation algorithm in wilson.cpp.
+- Add maze-generation algorithm.
 - Add a timer header on the gaming window.
 - Add a a pause menu.

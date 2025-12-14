@@ -6,7 +6,7 @@ void game(const string & current_player) {
 
     wgetch(game_window);
     /*
-    bool **walls = wilson();
+    std::vector<bool> walls = gen_walls();
     show_walls(walls);
     coordinates player_coordinates = gen_player();
     time_start = clock::now();
