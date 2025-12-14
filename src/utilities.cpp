@@ -51,11 +51,11 @@ WINDOW* new_boxed_window(int height, int width) {
 fs::path get_data_path() {
 
     char buffer[MAX_PATH];
-    GetModuleFileNameA(NULL, buffer, MAX_PATH); // Get executable's path
+    GetModuleFileNameA(NULL, buffer, MAX_PATH);         // Get executable's path
 
-    fs::path gameDir = fs::path(buffer).parent_path(); // Get the folder the executables is running in
+    fs::path gameDir = fs::path(buffer).parent_path();  // Get the folder the executable is running in
 
-    fs::path dataFile = gameDir / "data.json";  // Append data.json
+    fs::path dataFile = gameDir / "data.json";          // Append data.json
 
     return dataFile;
 }

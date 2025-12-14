@@ -1,9 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#define GAME_HEIGHT 20
-#define GAME_WIDTH 60
-
 #include <string>
 #include "curses.h"
 

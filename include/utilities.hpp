@@ -6,9 +6,11 @@
 #include <filesystem>
 #include "curses.h"
 
-constexpr int POPUP_HEIGHT = 5;
-constexpr int POPUP_WIDTH = 20;
-constexpr int MAX_USERNAME_LENGTH = 14;
+constexpr int POPUP_HEIGHT          = 5;    // Height of popup window.
+constexpr int POPUP_WIDTH           = 20;   // Width of popup window.
+constexpr int GAME_HEIGHT           = 20;   // Height of popup window.
+constexpr int GAME_WIDTH            = 60;   // Width of popup window.
+constexpr int MAX_USERNAME_LENGTH   = 14;   // Maximum permitted username length.
 
 // Centers a string horizontally.
 int center_string(int width, const char * str);
