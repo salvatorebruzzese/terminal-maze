@@ -1,5 +1,5 @@
 # Terminal maze
-Terminal game to solve mazes.
+Terminal game for solving mazes.
 
 ## Dependencies
 In folder ```terminal-maze/third_party```, provide the following libraries:
@@ -19,7 +19,7 @@ cmake --build build
 
 ## To-do
 - Update CMake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
-- Add game cycle function in game.cpp.
-- Add maze-generation algorithm.
-- Add a timer header on the gaming window.
-- Add a a pause menu.
+- Add the game cycle function in game.cpp.
+- Add a suitable maze-generation algorithm (like kruskal's).
+- Add an elapsed time header on the gaming window.
+- Add an in-game pause menu.
