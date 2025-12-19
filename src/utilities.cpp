@@ -1,6 +1,6 @@
 #include <cstring>
 #include <filesystem>
-#include <windows.h>
+#include <libloaderapi.h>
 #include <string>
 #include "curses.h"
 #include "utilities.hpp"
