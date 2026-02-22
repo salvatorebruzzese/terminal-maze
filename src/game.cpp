@@ -1,3 +1,5 @@
+#include <cstdio>
+#include <cstdlib>
 #include <string>
 #include "curses.h"
 #include "game.hpp"
@@ -5,6 +7,12 @@
 
 void game(const std::string & current_player) {
     WINDOW * game_window = new_boxed_window(GAME_HEIGHT, GAME_WIDTH);
+
+    if (!game_window) {
+        endwin();
+        fprintf(stderr, "Unable to create game window\n");
+        exit(4);
+    };
 
     wgetch(game_window);
     /*

@@ -17,6 +17,14 @@ cmake --build build
 ./build/maze.exe
 ```
 
+## Status codes
+The program uses `exit()` to stop when errors happen.
+Well-defined exit calls are:
+- `exit(1)` = Failed to initialize curses.
+- `exit(2)` = Unable to create username acquisition window.
+- `exit(3)` = Unable to get username `std::string`.
+- `exit(4)` = Unable to create game window.
+
 ## To-do
 - Update CMake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
 - Add the game cycle function in game.cpp.
