@@ -3,6 +3,7 @@
 #include <string>
 #include "curses.h"
 #include "game.hpp"
+#include "maze.hpp"
 #include "utilities.hpp"
 
 void game(const std::string & current_player) {
@@ -14,19 +15,20 @@ void game(const std::string & current_player) {
         exit(4);
     };
 
+    gridify(game_window);
+    start_end_markers(game_window);
     wgetch(game_window);
     /*
-    std::vector<bool> walls = gen_walls();
     show_walls(walls);
     coordinates player_coordinates = gen_player();
-    time_start = clock::now();
+    starting_time = clock::now();
     while (true) {
         if (check_win() = true) break;
 
         direction dir = get_input();    // timed input
         check_wall(dir, player_coordinates, walls);
         show_player(dir);
-        time_header(game_window);
+        time_header(game_window, starting_time);
         score = time_played();
     }
     */

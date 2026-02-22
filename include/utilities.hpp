@@ -6,8 +6,10 @@
 
 constexpr int POPUP_HEIGHT          = 7;    // Height of popup window.
 constexpr int POPUP_WIDTH           = 20;   // Width of popup window.
-constexpr int GAME_HEIGHT           = 20;   // Height of popup window.
-constexpr int GAME_WIDTH            = 60;   // Width of popup window.
+constexpr int GAME_HEIGHT           = 21;   // Height of game window.
+constexpr int GAME_WIDTH            = 61;   // Width of game window.
+constexpr int GAME_HEIGHT_NO_BORDERS= GAME_HEIGHT - 2;
+constexpr int GAME_WIDTH_NO_BORDERS = GAME_WIDTH - 2;
 constexpr int MAX_USERNAME_LENGTH   = 14;   // Maximum permitted username length.
 
 // Returns the starting x-coordinate to center a string.

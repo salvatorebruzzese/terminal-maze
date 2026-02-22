@@ -8,6 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(maze
     src/game.cpp
     src/main.cpp
+    src/maze.cpp
     src/menu.cpp
     src/ranking.cpp
     src/utilities.cpp
