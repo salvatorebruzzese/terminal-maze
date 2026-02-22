@@ -59,7 +59,7 @@ void print_top_ten(WINDOW * ranking_window, const json & object) {
     int number_of_cycles = 0;
     int current_row = PLAYERS_PRINT_ROW;
 
-    mvwprintw(ranking_window, 0, center_string(RANKING_WIDTH, TOP_TEN), "%s", TOP_TEN);
+    mvwprintw(ranking_window, 0, calculate_starting_x(RANKING_WIDTH, TOP_TEN), "%s", TOP_TEN);
 
     while (it != object.end() && number_of_cycles < 10) {
 
@@ -112,7 +112,7 @@ void show_error(const string & error) {
     
     WINDOW * error_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
     mvwprintw(error_window,
-        WARNING_ROW, center_string(POPUP_WIDTH, error.c_str()),
+        WARNING_ROW, calculate_starting_x(POPUP_WIDTH, error.c_str()),
         "%s", error.c_str());
     wgetch(error_window);
     delwin(error_window);

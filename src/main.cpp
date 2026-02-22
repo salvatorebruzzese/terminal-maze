@@ -5,7 +5,7 @@
 #include "utilities.hpp"
 
 int main() {
-    init();
+    init_curses();
 
     std::string current_player = ask_username();
     menu(current_player);

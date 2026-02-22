@@ -8,7 +8,7 @@
 void menu(std::string current_player);
 
 /**
- * Function to select one of the options on the menu.
+ * @brief Function to select one of the options on the menu.
  * 
  * @param current_selection     The index of the current selected
  *                              option in the anchors[] array.
@@ -19,7 +19,7 @@ void menu(std::string current_player);
 int menu_selection(int current_selection, WINDOW * menu_window);
 
 /**
- * Function to visualize the menu on the terminal.
+ * @brief Function to visualize the menu on the terminal.
  * 
  * @param current_selection     The index of the current selected
  *                              option in the anchors[] array.

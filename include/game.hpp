@@ -4,7 +4,8 @@
 #include <string>
 
 /**
- * The game cycle function.
+ * @brief The game cycle function.
+ * 
  * @param the name of the current player.
  */
 void game(const std::string & current_player);

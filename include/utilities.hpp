@@ -10,14 +10,14 @@ constexpr int GAME_HEIGHT           = 20;   // Height of popup window.
 constexpr int GAME_WIDTH            = 60;   // Width of popup window.
 constexpr int MAX_USERNAME_LENGTH   = 14;   // Maximum permitted username length.
 
-// Centers a string horizontally.
-int center_string(int width, const char * str);
+// Returns the starting x-coordinate to center a string.
+int calculate_starting_x(int width, const char * str);
 
-// Function to call at the start of main.
-void init();
+// Function to initialize curses.
+void init_curses();
 
 /**
- * Creates a new curses window of given size, draws the border, and refresh.
+ * @brief Creates a new curses window of given size, draws the border, and refresh.
  *
  * @return WINDOW * on success, or nullptr on failure.
  */

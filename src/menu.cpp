@@ -85,7 +85,7 @@ void visualize_menu(int current_selection, WINDOW * menu_window) {
             wattron(menu_window, A_REVERSE);
 
         // Moving the cursor to the left to center the option string.
-        wmove(menu_window, y_position * (i + 1) + 1, center_string(MENU_WIDTH, anchors[i].c_str()));
+        wmove(menu_window, y_position * (i + 1) + 1, calculate_starting_x(MENU_WIDTH, anchors[i].c_str()));
         wprintw(menu_window, "%s", anchors[i].c_str());
         
         wattroff(menu_window, A_REVERSE);

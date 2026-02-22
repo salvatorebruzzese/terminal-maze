@@ -11,11 +11,11 @@ using std::string;
 
 namespace fs = std::filesystem;
 
-int center_string(int width, const char * str) {
+int calculate_starting_x(int width, const char * str) {
     return width/2 - strlen(str)/2;
 }
 
-void init() {
+void init_curses() {
     if (!initscr()) {
         fprintf(stderr, "Failed to initialize curses\n");
         exit(1);
