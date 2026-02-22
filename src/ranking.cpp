@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include "curses.h"
 #include "json.hpp"
 #include "ranking.hpp"
 #include "utilities.hpp"

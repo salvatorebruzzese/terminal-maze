@@ -1,14 +1,11 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <iostream>
 #include <string>
 #include "curses.h"
 
-using std::string;
-
 // Wrapper function that contains menu logic.
-void menu(string current_player);
+void menu(std::string current_player);
 
 /**
  * Function to select one of the options on the menu.

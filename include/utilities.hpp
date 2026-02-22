@@ -1,8 +1,6 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-#include <iostream>
-#include <cstring>
 #include <filesystem>
 #include "curses.h"
 

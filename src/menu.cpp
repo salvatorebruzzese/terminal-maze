@@ -1,3 +1,5 @@
+#include <string>
+#include "curses.h"
 #include "game.hpp"
 #include "menu.hpp"
 #include "ranking.hpp"
@@ -10,7 +12,7 @@ constexpr int TOP_BOTTOM_BORDERS = 2;
 constexpr int MENU_HEIGHT = 15;
 constexpr int MENU_WIDTH = 30;
 
-void menu(string current_player) {
+void menu(std::string current_player) {
 
     int current_selection = 0;
     WINDOW * menu_window = new_boxed_window(MENU_HEIGHT, MENU_WIDTH);
@@ -70,7 +72,7 @@ int menu_selection(int current_selection, WINDOW * menu_window) {
 
 void visualize_menu(int current_selection, WINDOW * menu_window) {
 
-    static string anchors[NUM_MENU_OPTIONS] = {"New maze", "Leaderboard", "Exit"};
+    static std::string anchors[NUM_MENU_OPTIONS] = {"New maze", "Leaderboard", "Exit"};
 
     int y_position = MENU_HEIGHT/(NUM_MENU_OPTIONS + TOP_BOTTOM_BORDERS);
 

@@ -1,3 +1,7 @@
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include "curses.h"
 #include "utilities.hpp"
 #include "username.hpp"
 
@@ -11,7 +15,7 @@ constexpr int BRACKETS_ROW    = 3;  // Delimiter row
 constexpr int BRACKET_LEFT    = 2;  // Delimiter columns
 constexpr int BRACKET_RIGHT   = 17;
 
-string ask_username() {
+std::string ask_username() {
     
     WINDOW * username_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
 
@@ -29,14 +33,14 @@ string ask_username() {
 
     echo(); curs_set(1);
 
-    string new_username(MAX_USERNAME_LENGTH, '\0');
+    std::string new_username(MAX_USERNAME_LENGTH, '\0');
     int rc = mvwgetnstr(username_window, ASK_ROW, ASK_COL, new_username.data(), MAX_USERNAME_LENGTH);
 
     noecho(); curs_set(0);
 
     if (rc == ERR) {
         endwin();
-        fprintf(stderr, "Unable to get username string\n");
+        fprintf(stderr, "Unable to get username std::string\n");
         exit(3);
     }
 

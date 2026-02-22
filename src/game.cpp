@@ -1,7 +1,9 @@
+#include <string>
+#include "curses.h"
 #include "game.hpp"
 #include "utilities.hpp"
 
-void game(const string & current_player) {
+void game(const std::string & current_player) {
     WINDOW * game_window = new_boxed_window(GAME_HEIGHT, GAME_WIDTH);
 
     wgetch(game_window);
