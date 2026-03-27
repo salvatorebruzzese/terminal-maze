@@ -1,18 +1,18 @@
+#include "utilities.hpp"
+#include "curses.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <libloaderapi.h>
 #include <string>
-#include "curses.h"
-#include "utilities.hpp"
 
 using std::string;
 
 namespace fs = std::filesystem;
 
-int calculate_starting_x(int width, const char * str) {
-    return width/2 - strlen(str)/2;
+int calculate_starting_x(int width, const char* str) {
+    return width / 2 - strlen(str) / 2;
 }
 
 void init_curses() {
@@ -32,21 +32,25 @@ void init_curses() {
 }
 
 WINDOW* new_boxed_window(int height, int width) {
-    if (height < 2 || width < 2) return nullptr;
+    if (height < 2 || width < 2)
+        return nullptr;
 
     int sh, sw;
     getmaxyx(stdscr, sh, sw);
 
-    if (height > sh || width > sw) return nullptr;
+    if (height > sh || width > sw)
+        return nullptr;
 
     int y = (sh - height) / 2;
     int x = (sw - width) / 2;
 
     WINDOW* win = newwin(height, width, y, x);
-    if (!win) return nullptr;
+    if (!win)
+        return nullptr;
 
-    if (wborder(win, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK,
-                     ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK) == ERR || wrefresh(win) == ERR) {
+    if (wborder(win, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK,
+                ACS_BLOCK, ACS_BLOCK, ACS_BLOCK) == ERR ||
+        wrefresh(win) == ERR) {
         delwin(win);
         return nullptr;
     }
@@ -57,11 +61,13 @@ WINDOW* new_boxed_window(int height, int width) {
 fs::path get_data_path() {
 
     char buffer[MAX_PATH];
-    GetModuleFileNameA(NULL, buffer, MAX_PATH);         // Get executable's path
+    GetModuleFileNameA(NULL, buffer, MAX_PATH); // Get executable's path
 
-    fs::path gameDir = fs::path(buffer).parent_path();  // Get the folder the executable is running in
+    fs::path gameDir =
+        fs::path(buffer)
+            .parent_path(); // Get the folder the executable is running in
 
-    fs::path dataFile = gameDir / "data.json";          // Append data.json
+    fs::path dataFile = gameDir / "data.json"; // Append data.json
 
     return dataFile;
 }

@@ -5,7 +5,7 @@
 
 /**
  * @brief Creates a window for the user to enter a username.
- * 
+ *
  * @return The entered username.
  */
 std::string ask_username();

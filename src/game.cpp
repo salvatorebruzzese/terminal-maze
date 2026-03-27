@@ -1,13 +1,13 @@
+#include "game.hpp"
+#include "curses.h"
+#include "maze.hpp"
+#include "utilities.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-#include "curses.h"
-#include "game.hpp"
-#include "maze.hpp"
-#include "utilities.hpp"
 
-void game(const std::string & current_player) {
-    WINDOW * game_window = new_boxed_window(GAME_HEIGHT, GAME_WIDTH);
+void game(const std::string& current_player) {
+    WINDOW* game_window = new_boxed_window(GAME_HEIGHT, GAME_WIDTH);
 
     if (!game_window) {
         endwin();

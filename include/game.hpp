@@ -5,9 +5,9 @@
 
 /**
  * @brief The game cycle function.
- * 
+ *
  * @param the name of the current player.
  */
-void game(const std::string & current_player);
+void game(const std::string& current_player);
 
 #endif // GAME_H
