@@ -1,33 +1,33 @@
-# Terminal maze
-Terminal game for solving mazes.
+# Terminal Maze
+A terminal-based game to solve mazes, written in C++. 
+Developed and targeted for Windows on amd64 architectures.
 
-## Dependencies
-In folder ```terminal-maze/third_party```, provide the following libraries:
-- [PDCurses](https://pdcurses.org) 3.9
-- [JSON for Modern C++](https://json.nlohmann.me/) 3.12.0
+## Build and dependencies
+Place the following libraries inside the `terminal-maze/third_party` directory:
+- Version 3.9 of [PDCurses](https://pdcurses.org) (must be built before).
+- Version 3.12.0 of [JSON for Modern C++](https://json.nlohmann.me/).
 
-## Build requirements
-- CMake (>= 3.20 recommended)
-- A C++20-compatible compiler
+Make sure you have cmake and a C++20 compiler installed on your system. 
 
-## Build
-```
+Build with the following commands:
+
+```bash
 cmake -S . -B build
 cmake --build build
 ./build/maze.exe
 ```
 
-## Status codes
-The program uses `exit()` to stop when errors happen.
-Well-defined exit calls are:
-- `exit(1)` = Failed to initialize curses.
-- `exit(2)` = Unable to create username acquisition window.
-- `exit(3)` = Unable to get username `std::string`.
-- `exit(4)` = Unable to create game window.
+## Error Codes
+The program uses `exit()` to stop when critical errors occur.
+- `exit(1)`: Failed to initialize curses.
+- `exit(2)`: Unable to create username acquisition window.
+- `exit(3)`: Unable to get username `std::string`.
+- `exit(4)`: Unable to create game window.
 
-## To-do
-- Update CMake in order to make it use a package manager that automatically downloads the required dependencies (in ```./third-party```).
-- Add the game cycle function in game.cpp.
-- Add a suitable maze-generation algorithm (like kruskal's).
-- Add an elapsed time header on the gaming window.
-- Add an in-game pause menu.
+## License
+This project is licensed under the **MIT License**. See the `LICENSE` folder for the full license text.
+
+### Third-Party Libraries
+This project uses the following open-source libraries:
+- **PDCurses:** Released under the Public Domain.
+- **JSON for Modern C++ (nlohmann/json):** MIT License. *(Note: Contains sub-components licensed under MIT, CC0-1.0, and Apache 2.0).*
