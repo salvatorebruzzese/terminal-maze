@@ -5,15 +5,13 @@
 #include <cstdlib>
 #include <string>
 
-constexpr int DIALOGUE_ROW = 1; // Dialogue row
+constexpr int DIALOGUE_ROW = 2; // Dialogue row
 constexpr int DIALOGUE_COL = 3; // Dialogue column
 
-constexpr int ASK_ROW = 3; // Input row
+constexpr int ASK_ROW = 4; // Input row
 constexpr int ASK_COL = 3; // Input column
 
-constexpr int BRACKETS_ROW = 3; // Delimiter row
-constexpr int BRACKET_LEFT = 2; // Delimiter columns
-constexpr int BRACKET_RIGHT = 17;
+constexpr int INPUT_LENGTH = 14;
 
 std::string ask_username() {
 
@@ -26,13 +24,16 @@ std::string ask_username() {
     }
 
     mvwprintw(username_window, DIALOGUE_ROW, DIALOGUE_COL, "Enter username");
-    mvwprintw(username_window, BRACKETS_ROW, BRACKET_LEFT, "<");
-    mvwprintw(username_window, BRACKETS_ROW, BRACKET_RIGHT, ">");
+
+    for (int i = 0; i < INPUT_LENGTH; i++) {
+        mvwaddch(username_window, ASK_ROW, ASK_COL + i, ACS_BLOCK);
+    }
 
     wrefresh(username_window);
 
     echo();
     curs_set(1);
+    wattron(username_window, A_REVERSE);
 
     std::string new_username(MAX_USERNAME_LENGTH, '\0');
     int rc = mvwgetnstr(username_window, ASK_ROW, ASK_COL, new_username.data(),
@@ -40,6 +41,7 @@ std::string ask_username() {
 
     noecho();
     curs_set(0);
+    wattroff(username_window, A_REVERSE);
 
     if (rc == ERR) {
         endwin();
