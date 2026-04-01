@@ -25,7 +25,7 @@ The program uses `exit()` to stop when critical errors occur.
 - `exit(4)`: Unable to create game window.
 
 ## License
-This project is licensed under the **MIT License**. See the `LICENSE` folder for the full license text.
+This project is licensed under the **MIT License**.
 
 ### Third-Party Libraries
 This project uses the following open-source libraries:
