@@ -5,7 +5,7 @@ Developed and targeted for Windows on amd64 architectures.
 ## Build and dependencies
 Place the following libraries inside the `terminal-maze/third_party` directory:
 - Version 3.9 of [PDCurses](https://pdcurses.org) (must be built before).
-- Version 3.12.0 of [JSON for Modern C++](https://json.nlohmann.me/).
+- Version 3.11.3 of [JSON for Modern C++](https://json.nlohmann.me/).
 
 Make sure you have cmake and a C++20 compiler installed on your system. 
 
