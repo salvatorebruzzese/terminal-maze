@@ -1,44 +1,34 @@
 #include "maze.hpp"
 #include "curses.h"
+#include "utilities.hpp"
 
 void gridify(WINDOW* game_window) {
-    int starting_y = 1;
-    while (starting_y <= GAME_HEIGHT_NO_BORDERS) {
-        if ((starting_y - 1) % 2 == 0) {
-            bool is_a_wall = false;
-            for (int starting_x = 1; starting_x <= GAME_WIDTH_NO_BORDERS;
-                 starting_x++) {
-                if (is_a_wall) {
-                    mvwadd_wch(game_window, starting_y, starting_x, WACS_BLOCK);
-                    is_a_wall = false;
-                } else
-                    is_a_wall = true;
-            }
-        } else {
-            for (int starting_x = 1; starting_x <= GAME_WIDTH_NO_BORDERS;
-                 starting_x++) {
+
+    for (int starting_y = 1; starting_y <= GAME_HEIGHT_NO_BORDERS;
+         starting_y++) {
+        for (int starting_x = 1; starting_x <= GAME_WIDTH_NO_BORDERS;
+             starting_x++) {
+            if (starting_y % 2 == 0 && starting_x % 2 == 1) {
                 mvwadd_wch(game_window, starting_y, starting_x, WACS_BLOCK);
-            }
+            } else if (starting_y % 2 == 1 && starting_x % 2 == 0)
+                mvwadd_wch(game_window, starting_y, starting_x, WACS_BLOCK);
         }
         wrefresh(game_window);
         napms(20);
-        starting_y++;
     }
 }
 
+void maze(WINDOW* game_window) {}
+
 void start_end_markers(WINDOW* game_window) {
 
-    int top_left_y = 1;
-    int top_left_x = 1;
-    int bottom_right_y = GAME_HEIGHT - 2;
-    int bottom_right_x = GAME_WIDTH - 2;
-
     wattron(game_window, COLOR_PAIR(1));
-    mvwadd_wch(game_window, top_left_y, top_left_x, WACS_BLOCK);
+    mvwadd_wch(game_window, TOP_LEFT_CORNER, TOP_LEFT_CORNER, WACS_BLOCK);
     wattroff(game_window, COLOR_PAIR(1));
 
     wattron(game_window, COLOR_PAIR(2));
-    mvwadd_wch(game_window, bottom_right_y, bottom_right_x, WACS_BLOCK);
+    mvwadd_wch(game_window, BOTTOM_RIGHT_CORNER_Y, BOTTOM_RIGHT_CORNER_X,
+               WACS_BLOCK);
     wattroff(game_window, COLOR_PAIR(2));
 
     wrefresh(game_window);
