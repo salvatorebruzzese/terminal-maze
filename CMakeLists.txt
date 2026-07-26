@@ -22,12 +22,13 @@ target_include_directories(maze PRIVATE
     "${CMAKE_SOURCE_DIR}/include"
 )
 
-FetchContent_Declare(json
-    GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.3
+FetchContent_Declare(
+    nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
-FetchContent_MakeAvailable(json)
+FetchContent_MakeAvailable(nlohmann_json)
 
 target_link_libraries(maze PRIVATE nlohmann_json::nlohmann_json)
 
@@ -37,7 +38,9 @@ if (WIN32)
     target_include_directories(maze PRIVATE "${PDCURSES_ROOT}")
     target_link_libraries(maze PRIVATE "${PDCURSES_ROOT}/wincon/pdcurses.a")
 else()
+    set(CURSES_NEED_NCURSES TRUE)
+    set(CURSES_NEED_WIDE TRUE)
     find_package(Curses REQUIRED)
-    target_include_directories(maze PRIVATE ${CURSES_INCLUDE_DIR})
+    target_include_directories(maze PRIVATE ${CURSES_INCLUDE_DIRS})
     target_link_libraries(maze PRIVATE ${CURSES_LIBRARIES})
 endif()

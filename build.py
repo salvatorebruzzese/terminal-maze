@@ -6,6 +6,7 @@ import shutil
 
 print('Building...')
 
+# TODO: download the PDCurses library, build it and link against it
 if (sys.platform == 'win32'):
     print('Windows')
 else:
@@ -15,10 +16,11 @@ else:
 
         for tool in dependencies:
             if shutil.which(tool) == None:
-                print('Please, provide ', tool)
+                print('Please, install', tool)
+                sys.exit()
 
         try:
-            output = subprocess.run(['cmake', '-S .', '-B build'], capture_output=True, text=True, check=True)
+            output = subprocess.run(['cmake', '-S', '.', '-B', 'build'], capture_output=True, text=True, check=True)
 
             print('CMake configured succesfully')
         except subprocess.CalledProcessError as e:
