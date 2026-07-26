@@ -1,6 +1,6 @@
 #include "ranking.hpp"
 #include "curses.h"
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 #include "utilities.hpp"
 #include <algorithm>
 #include <filesystem>

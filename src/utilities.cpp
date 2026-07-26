@@ -4,8 +4,15 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
-#include <libloaderapi.h>
+
 #include <string>
+
+#ifdef _WIN32
+#include <libloaderapi.h>
+#else
+#include <limits.h>
+#include <unistd.h>
+#endif
 
 using std::string;
 
@@ -60,15 +67,25 @@ WINDOW* new_boxed_window(int height, int width) {
 }
 
 fs::path get_data_path() {
-
+#ifdef _WIN32
     char buffer[MAX_PATH];
     GetModuleFileNameA(NULL, buffer, MAX_PATH); // Get executable's path
 
-    fs::path gameDir =
-        fs::path(buffer)
-            .parent_path(); // Get the folder the executable is running in
+    // Get the folder the executable is running in
+    fs::path gameDir = fs::path(buffer).parent_path();
 
-    fs::path dataFile = gameDir / "data.json"; // Append data.json
+    return gameDir / "data.json"; // Append data.json;
+#else
+    char buffer[PATH_MAX + 1];
+    // Special symlink to read executable working directory
+    ssize_t len = readlink("/proc/self/exe", buffer, PATH_MAX);
 
-    return dataFile;
+    if (len != -1) {
+        buffer[len] = '\0';
+        fs::path gameDir = fs::path(buffer).parent_path();
+        return gameDir / "data.json";
+    }
+
+    return "";
+#endif
 }
