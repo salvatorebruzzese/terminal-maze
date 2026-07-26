@@ -16,6 +16,7 @@ int calculate_starting_x(int width, const char* str) {
 }
 
 void init_curses() {
+    setlocale(LC_ALL, "");
     if (!initscr()) {
         fprintf(stderr, "Failed to initialize curses\n");
         exit(1);
@@ -48,8 +49,8 @@ WINDOW* new_boxed_window(int height, int width) {
     if (!win)
         return nullptr;
 
-    if (wborder(win, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK, ACS_BLOCK,
-                ACS_BLOCK, ACS_BLOCK, ACS_BLOCK) == ERR ||
+    if (wborder_set(win, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK,
+                    WACS_BLOCK, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK) == ERR ||
         wrefresh(win) == ERR) {
         delwin(win);
         return nullptr;

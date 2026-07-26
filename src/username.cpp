@@ -26,7 +26,7 @@ std::string ask_username() {
     mvwprintw(username_window, DIALOGUE_ROW, DIALOGUE_COL, "Enter username");
 
     for (int i = 0; i < INPUT_LENGTH; i++) {
-        mvwaddch(username_window, ASK_ROW, ASK_COL + i, ACS_BLOCK);
+        mvwadd_wch(username_window, ASK_ROW, ASK_COL + i, WACS_BLOCK);
     }
 
     wrefresh(username_window);
