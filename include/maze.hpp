@@ -7,14 +7,11 @@
 #define TOP_LEFT_CORNER 1
 #define BOTTOM_RIGHT_CORNER_Y (GAME_HEIGHT - 2)
 #define BOTTOM_RIGHT_CORNER_X (GAME_WIDTH - 2)
-#define CELLS_PER_COLUMN_ODD 10
-#define CELLS_PER_COLUMN_EVEN 9
-#define CELLS_PER_ROW_ODD 30
-#define CELLS_PER_ROW_ODD 29
 
 typedef std::tuple<int, int> pair;
 
-// Simple DSU implementation optimized with path compression and union by rank
+// Simple DSU implementation optimized with path compression and union by rank.
+// The implementation is not general-purpose, as it is tailored for the maze
 class dsu {
     std::map<pair, pair> parent;
     std::map<pair, int> rank;
@@ -31,14 +28,14 @@ class dsu {
     }
 
     // Path compression on tuples
-    pair find(pair i) {
+    pair find(const pair& i) {
         if (parent[i] == i)
             return i;
         return parent[i] = find(parent[i]);
     }
 
     // Union by rank
-    void merge(pair s1, pair s2) {
+    void merge(const pair& s1, const pair& s2) {
         pair root1 = find(s1);
         pair root2 = find(s2);
 
@@ -56,8 +53,10 @@ class dsu {
     }
 };
 
-// Turns the game view in a grid where
-// every free cell is surrounded by walls.
-void gridify(WINDOW* game_window);
+// Turns the game view in a grid where every free cell is surrounded by walls.
+// Adds the walls to a map mid-process in preparation for Kruskal's algorithm
+void gridify(WINDOW* game_window, std::vector<pair>& walls);
+
+void maze(WINDOW* game_window);
 
 void start_end_markers(WINDOW* game_window);
