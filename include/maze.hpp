@@ -1,37 +1,46 @@
+#include "utilities.hpp"
 #include <curses.h>
+#include <map>
+#include <tuple>
 #include <vector>
 
 #define TOP_LEFT_CORNER 1
 #define BOTTOM_RIGHT_CORNER_Y (GAME_HEIGHT - 2)
 #define BOTTOM_RIGHT_CORNER_X (GAME_WIDTH - 2)
+#define CELLS_PER_COLUMN_ODD 10
+#define CELLS_PER_COLUMN_EVEN 9
+#define CELLS_PER_ROW_ODD 30
+#define CELLS_PER_ROW_ODD 29
 
-typedef struct point {
-    int x, y;
-} wall;
-
-typedef std::vector<wall> wall_vector;
+typedef std::tuple<int, int> pair;
 
 // Simple DSU implementation optimized with path compression and union by rank
 class dsu {
-    std::vector<int> parent, rank;
+    std::map<pair, pair> parent;
+    std::map<pair, int> rank;
 
   public:
-    dsu(int n) {
-        parent.resize(n);
-        rank.resize(n, 0);
-        for (int i = 0; i < n; i++)
-            parent[i] = i;
+    dsu() {
+        for (int y = 1; y <= GAME_HEIGHT_NO_BORDERS; y = y + 2) {
+            for (int x = 1; x <= GAME_WIDTH_NO_BORDERS; x = x + 2) {
+                pair pos(y, x);
+                parent[pos] = pos;
+                rank[pos] = 0;
+            }
+        }
     }
 
-    int find(int i) {
+    // Path compression on tuples
+    pair find(pair i) {
         if (parent[i] == i)
             return i;
         return parent[i] = find(parent[i]);
     }
 
-    void merge(int s1, int s2) {
-        int root1 = find(s1);
-        int root2 = find(s2);
+    // Union by rank
+    void merge(pair s1, pair s2) {
+        pair root1 = find(s1);
+        pair root2 = find(s2);
 
         if (root1 == root2)
             return;
