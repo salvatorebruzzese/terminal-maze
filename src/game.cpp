@@ -15,8 +15,7 @@ void game(const std::string& current_player) {
         exit(4);
     };
 
-    gridify(game_window);
-    start_end_markers(game_window);
+    maze(game_window);
     wgetch(game_window);
     /*
     show_walls(walls);
