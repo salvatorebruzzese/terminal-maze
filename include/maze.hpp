@@ -1,14 +1,13 @@
 #include "utilities.hpp"
 #include <curses.h>
 #include <map>
-#include <tuple>
 #include <vector>
 
 #define TOP_LEFT_CORNER 1
 #define BOTTOM_RIGHT_CORNER_Y (GAME_HEIGHT - 2)
 #define BOTTOM_RIGHT_CORNER_X (GAME_WIDTH - 2)
 
-typedef std::tuple<int, int> pair;
+typedef std::pair<int, int> pair;
 
 // Simple DSU implementation optimized with path compression and union by rank.
 // The implementation is not general-purpose, as it is tailored for the maze
@@ -21,17 +20,17 @@ class dsu {
         for (int y = 1; y <= GAME_HEIGHT_NO_BORDERS; y = y + 2) {
             for (int x = 1; x <= GAME_WIDTH_NO_BORDERS; x = x + 2) {
                 pair pos(y, x);
-                parent[pos] = pos;
-                rank[pos] = 0;
+                parent.insert({pos, pos});
+                rank.insert({pos, 0});
             }
         }
     }
 
-    // Path compression on tuples
+    // Path compression
     pair find(const pair& i) {
-        if (parent[i] == i)
+        if (parent.at(i) == i)
             return i;
-        return parent[i] = find(parent[i]);
+        return parent.at(i) = find(parent.at(i));
     }
 
     // Union by rank
@@ -42,13 +41,13 @@ class dsu {
         if (root1 == root2)
             return;
 
-        if (rank[root1] < rank[root2]) {
-            parent[root1] = root2;
-        } else if (rank[root2] < rank[root1]) {
-            parent[root2] = root1;
+        if (rank.at(root1) < rank.at(root2)) {
+            parent.at(root1) = root2;
+        } else if (rank.at(root2) < rank.at(root1)) {
+            parent.at(root2) = root1;
         } else {
-            parent[root1] = root2;
-            rank[root2]++;
+            parent.at(root1) = root2;
+            rank.at(root2)++;
         }
     }
 };
