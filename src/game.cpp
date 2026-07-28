@@ -10,12 +10,56 @@
 #define CLOCK_X (GAME_WIDTH - 10)
 #define CLOCK_Y 0
 
-void timer(WINDOW* game_window, std::time_t start) {
-    double elapsed = difftime(std::time(nullptr), start);
+int timer(WINDOW* game_window, std::time_t start) {
+    int elapsed = difftime(std::time(nullptr), start);
 
-    std::string elapsed_str = std::to_string((int)elapsed);
+    std::string elapsed_str = std::to_string(elapsed);
 
-    mvwprintw(game_window, CLOCK_Y, CLOCK_X, "Time: %s  ", elapsed_str.c_str());
+    mvwprintw(game_window, CLOCK_Y, CLOCK_X, "Time: %s", elapsed_str.c_str());
+    wrefresh(game_window);
+    return elapsed;
+}
+
+int get_input(WINDOW* game_window) {
+    int dir = wgetch(game_window);
+    if (dir == KEY_UP || dir == KEY_DOWN || dir == KEY_LEFT || dir == KEY_RIGHT)
+        return dir;
+    else
+        return ERR;
+}
+
+void update_window(WINDOW* game_window, int dir, pair& player) {
+    int next_y = player.first;
+    int next_x = player.second;
+
+    switch (dir) {
+    case KEY_UP:
+        next_y -= 1;
+        break;
+    case KEY_DOWN:
+        next_y += 1;
+        break;
+    case KEY_LEFT:
+        next_x -= 1;
+        break;
+    case KEY_RIGHT:
+        next_x += 1;
+        break;
+    default:
+        return;
+    }
+
+    chtype extracted = mvwinch(game_window, next_y, next_x);
+
+    if ((extracted & A_REVERSE) == 0) {
+        mvwaddch(game_window, player.first, player.second, ' ');
+        player = {next_y, next_x};
+        wattron(game_window, COLOR_PAIR(1));
+        mvwaddch(game_window, player.first, player.second, ' ');
+        wattroff(game_window, COLOR_PAIR(1));
+    }
+
+    wrefresh(game_window);
 }
 
 void game(const std::string& current_player) {
@@ -26,22 +70,29 @@ void game(const std::string& current_player) {
         fprintf(stderr, "Unable to create game window\n");
         exit(4);
     };
+    pair markers = maze(game_window);
+    pair player = {markers.first, FIRST_COLUMN};
 
-    maze(game_window);
-
-    // coordinates player_coordinates = gen_player();
     std::time_t start = std::time(nullptr);
-    while (true) {
-        // if (check_win() = true)
-        //    score = time_played();
-        //            break;
+    int score;
 
-        // direction dir = get_input(); // timed input
-        //  check_wall(dir, player_coordinates, walls);
-        //   show_player(dir);
-        timer(game_window, start);
-        break;
+    keypad(game_window, true);
+
+    wtimeout(game_window, 200);
+    while (true) {
+        if (player.first == markers.second && player.second == LAST_COLUMN)
+            break;
+
+        score = timer(game_window, start);
+
+        int dir = get_input(game_window);
+        if (dir != ERR)
+            update_window(game_window, dir, player);
+        else
+            continue;
     }
+
+    keypad(game_window, false);
 
     // update_ranking(current_player, score);
     wgetch(game_window);

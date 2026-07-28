@@ -30,8 +30,8 @@ void init_curses() {
     }
 
     start_color();
-    init_pair(1, COLOR_GREEN, COLOR_BLACK);
-    init_pair(2, COLOR_RED, COLOR_BLACK);
+    init_pair(1, COLOR_BLACK, COLOR_GREEN);
+    init_pair(2, COLOR_BLACK, COLOR_RED);
 
     curs_set(0);
     noecho();
@@ -56,9 +56,10 @@ WINDOW* new_boxed_window(int height, int width) {
     if (!win)
         return nullptr;
 
-    if (wborder_set(win, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK,
-                    WACS_BLOCK, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK) == ERR ||
+    wattron(win, A_REVERSE);
+    if (wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ') == ERR ||
         wrefresh(win) == ERR) {
+        wattroff(win, A_REVERSE);
         delwin(win);
         return nullptr;
     }
