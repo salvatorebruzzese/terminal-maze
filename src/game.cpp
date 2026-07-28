@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "curses.h"
 #include "maze.hpp"
+#include "ranking.hpp"
 #include "utilities.hpp"
 #include <cstdio>
 #include <cstdlib>
@@ -94,7 +95,7 @@ void game(const std::string& current_player) {
 
     keypad(game_window, false);
 
-    // update_ranking(current_player, score);
+    update_ranking(current_player, score);
     wgetch(game_window);
     wclear(game_window);
     wrefresh(game_window);
