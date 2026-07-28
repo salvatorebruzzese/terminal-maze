@@ -11,50 +11,51 @@ void gridify(WINDOW* game_window, std::vector<pair>& walls) {
     // Overestimate number of walls
     walls.reserve(GAME_HEIGHT_NO_BORDERS * GAME_WIDTH_NO_BORDERS);
 
+    wattron(game_window, A_REVERSE);
+
     for (int y = 1; y <= GAME_HEIGHT_NO_BORDERS; y++) {
         for (int x = 1; x <= GAME_WIDTH_NO_BORDERS; x++) {
             if (y % 2 == 0 && x % 2 == 0) {
-                mvwadd_wch(game_window, y, x, WACS_BLOCK);
+                mvwaddch(game_window, y, x, ' ');
             } else if ((y % 2 == 1 && x % 2 == 0) ||
                        (y % 2 == 0 && x % 2 == 1)) {
                 walls.emplace_back(y, x);
-                mvwadd_wch(game_window, y, x, WACS_BLOCK);
+                mvwaddch(game_window, y, x, ' ');
             }
         }
         wrefresh(game_window);
         napms(20);
     }
+
+    wattroff(game_window, A_REVERSE);
 }
 
 // Implementation note: the first mark is the y of the start position marker
 // whereas the second mark is the y of the target cell to reach.
-markers start_end_markers(WINDOW* game_window) {
+pair start_end_markers(WINDOW* game_window) {
 
     std::random_device rd;
     std::mt19937 generator(rd());
     std::uniform_int_distribution<> height(0, GAME_HEIGHT);
 
-    markers mark;
-    char char1[2], char2[2];
+    int s_mark, e_mark;
+
     do {
-        mark.first = height(generator);
-        mark.second = height(generator);
-        mvwinnstr(game_window, mark.first, FIRST_COLUMN, char1, READCHAR);
-        mvwinnstr(game_window, mark.second, LAST_COLUMN, char2, READCHAR);
-        char1[1] = '\0';
-        char2[1] = '\0';
-    } while (char1[0] != ' ' || char2[0] != ' ');
+        s_mark = height(generator);
+        e_mark = height(generator);
+    } while (mvwinch(game_window, s_mark, FIRST_COLUMN) != ' ' ||
+             mvwinch(game_window, e_mark, LAST_COLUMN) != ' ');
 
     wattron(game_window, COLOR_PAIR(1));
-    mvwadd_wch(game_window, mark.first, FIRST_COLUMN, WACS_BLOCK);
+    mvwaddch(game_window, s_mark, FIRST_COLUMN, ' ');
     wattroff(game_window, COLOR_PAIR(1));
 
     wattron(game_window, COLOR_PAIR(2));
-    mvwadd_wch(game_window, mark.second, LAST_COLUMN, WACS_BLOCK);
+    mvwaddch(game_window, e_mark, LAST_COLUMN, ' ');
     wattroff(game_window, COLOR_PAIR(2));
 
     wrefresh(game_window);
-    return mark;
+    return pair(s_mark, e_mark);
 }
 
 void kruskal(WINDOW* game_window, std::vector<pair> walls) {
@@ -94,7 +95,7 @@ void kruskal(WINDOW* game_window, std::vector<pair> walls) {
     }
 }
 
-markers maze(WINDOW* game_window) {
+pair maze(WINDOW* game_window) {
     std::vector<pair> walls;
     gridify(game_window, walls);
 

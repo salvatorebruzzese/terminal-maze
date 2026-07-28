@@ -75,8 +75,10 @@ void visualize_menu(int current_selection, WINDOW* menu_window) {
     int y_position = MENU_HEIGHT / (NUM_MENU_OPTIONS + TOP_BOTTOM_BORDERS);
 
     wclear(menu_window);
-    wborder_set(menu_window, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK,
-                WACS_BLOCK, WACS_BLOCK, WACS_BLOCK, WACS_BLOCK);
+
+    wattron(menu_window, A_REVERSE);
+    wborder(menu_window, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+    wattroff(menu_window, A_REVERSE);
 
     for (int i = FIRST_MENU_OPTION; i <= LAST_MENU_OPTION; i++) {
         if (current_selection == i)

@@ -9,7 +9,6 @@
 #define READCHAR 1
 
 typedef std::pair<int, int> pair;
-typedef std::pair<int, int> markers;
 
 // Simple DSU implementation optimized with path compression and union by
 // rank. The implementation is not general-purpose, as it is tailored for
@@ -59,6 +58,6 @@ class dsu {
 // Adds the walls to a map mid-process in preparation for Kruskal's algorithm
 void gridify(WINDOW* game_window, std::vector<pair>& walls);
 
-markers maze(WINDOW* game_window);
+pair maze(WINDOW* game_window);
 
-markers start_end_markers(WINDOW* game_window);
+pair start_end_markers(WINDOW* game_window);

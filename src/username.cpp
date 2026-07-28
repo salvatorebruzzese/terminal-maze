@@ -26,7 +26,9 @@ std::string ask_username() {
     mvwprintw(username_window, DIALOGUE_ROW, DIALOGUE_COL, "Enter username");
 
     for (int i = 0; i < INPUT_LENGTH; i++) {
-        mvwadd_wch(username_window, ASK_ROW, ASK_COL + i, WACS_BLOCK);
+        wattron(username_window, A_REVERSE);
+        mvwaddch(username_window, ASK_ROW, ASK_COL + i, ' ');
+        wattroff(username_window, A_REVERSE);
     }
 
     wrefresh(username_window);
