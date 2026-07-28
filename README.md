@@ -18,6 +18,7 @@ python build.py
 ```
 
 ## Error Codes
+
 The program uses `exit()` to stop when critical errors occur.
 
 - `exit(1)`: Failed to initialize curses.
@@ -34,4 +35,5 @@ This project is licensed under the **MIT License**.
 This project uses the following open-source libraries:
 
 - **PDCurses:** Released under the Public Domain.
+- **ncurses:** Released under the GNU LPGL Version 2.1.
 - **JSON for Modern C++ (nlohmann/json):** MIT License. *(Note: Contains sub-components licensed under MIT, CC0-1.0, and Apache 2.0).*

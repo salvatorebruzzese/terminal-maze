@@ -34,9 +34,13 @@ target_link_libraries(maze PRIVATE nlohmann_json::nlohmann_json)
 
 # Run build.py to download PDCurses and build it
 if (WIN32)
-    set(PDCURSES_ROOT "${CMAKE_SOURCE_DIR}/third_party/PDCurses")
-    target_include_directories(maze PRIVATE "${PDCURSES_ROOT}")
-    target_link_libraries(maze PRIVATE "${PDCURSES_ROOT}/wincon/pdcurses.a")
+    if(NOT PDCURSES_DIR)
+        message(FATAL_ERROR "PDCURSES_DIR is not set. Use the python build script.")
+    endif()
+
+    target_include_directories(your_game_target PRIVATE ${PDCURSES_DIR})
+    
+    target_link_libraries(your_game_target PRIVATE ${PDCURSES_DIR}/wincon/pdcurses.a)
 else()
     set(CURSES_NEED_NCURSES TRUE)
     set(CURSES_NEED_WIDE TRUE)
