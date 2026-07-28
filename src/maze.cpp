@@ -26,19 +26,35 @@ void gridify(WINDOW* game_window, std::vector<pair>& walls) {
     }
 }
 
-// TODO: Randomize the end marker position
-void start_end_markers(WINDOW* game_window) {
+// Implementation note: the first mark is the y of the start position marker
+// whereas the second mark is the y of the target cell to reach.
+markers start_end_markers(WINDOW* game_window) {
+
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::uniform_int_distribution<> height(0, GAME_HEIGHT);
+
+    markers mark;
+    char char1[2], char2[2];
+    do {
+        mark.first = height(generator);
+        mark.second = height(generator);
+        mvwinnstr(game_window, mark.first, FIRST_COLUMN, char1, READCHAR);
+        mvwinnstr(game_window, mark.second, LAST_COLUMN, char2, READCHAR);
+        char1[1] = '\0';
+        char2[1] = '\0';
+    } while (char1[0] != ' ' || char2[0] != ' ');
 
     wattron(game_window, COLOR_PAIR(1));
-    mvwadd_wch(game_window, TOP_LEFT_CORNER, TOP_LEFT_CORNER, WACS_BLOCK);
+    mvwadd_wch(game_window, mark.first, FIRST_COLUMN, WACS_BLOCK);
     wattroff(game_window, COLOR_PAIR(1));
 
     wattron(game_window, COLOR_PAIR(2));
-    mvwadd_wch(game_window, BOTTOM_RIGHT_CORNER_Y, BOTTOM_RIGHT_CORNER_X,
-               WACS_BLOCK);
+    mvwadd_wch(game_window, mark.second, LAST_COLUMN, WACS_BLOCK);
     wattroff(game_window, COLOR_PAIR(2));
 
     wrefresh(game_window);
+    return mark;
 }
 
 void kruskal(WINDOW* game_window, std::vector<pair> walls) {
@@ -78,10 +94,10 @@ void kruskal(WINDOW* game_window, std::vector<pair> walls) {
     }
 }
 
-void maze(WINDOW* game_window) {
+markers maze(WINDOW* game_window) {
     std::vector<pair> walls;
     gridify(game_window, walls);
 
     kruskal(game_window, walls);
-    start_end_markers(game_window);
+    return start_end_markers(game_window);
 }

@@ -4,13 +4,16 @@
 #include <vector>
 
 #define TOP_LEFT_CORNER 1
-#define BOTTOM_RIGHT_CORNER_Y (GAME_HEIGHT - 2)
-#define BOTTOM_RIGHT_CORNER_X (GAME_WIDTH - 2)
+#define FIRST_COLUMN 1
+#define LAST_COLUMN (GAME_WIDTH - 2)
+#define READCHAR 1
 
 typedef std::pair<int, int> pair;
+typedef std::pair<int, int> markers;
 
-// Simple DSU implementation optimized with path compression and union by rank.
-// The implementation is not general-purpose, as it is tailored for the maze
+// Simple DSU implementation optimized with path compression and union by
+// rank. The implementation is not general-purpose, as it is tailored for
+// the maze
 class dsu {
     std::map<pair, pair> parent;
     std::map<pair, int> rank;
@@ -56,6 +59,6 @@ class dsu {
 // Adds the walls to a map mid-process in preparation for Kruskal's algorithm
 void gridify(WINDOW* game_window, std::vector<pair>& walls);
 
-void maze(WINDOW* game_window);
+markers maze(WINDOW* game_window);
 
-void start_end_markers(WINDOW* game_window);
+markers start_end_markers(WINDOW* game_window);

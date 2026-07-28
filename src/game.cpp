@@ -15,7 +15,7 @@ void timer(WINDOW* game_window, std::time_t start) {
 
     std::string elapsed_str = std::to_string((int)elapsed);
 
-    mvwprintw(game_window, CLOCK_Y, CLOCK_X, "Time:   %s", elapsed_str.c_str());
+    mvwprintw(game_window, CLOCK_Y, CLOCK_X, "Time: %s  ", elapsed_str.c_str());
 }
 
 void game(const std::string& current_player) {
