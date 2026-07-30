@@ -4,9 +4,9 @@
 #include "utilities.hpp"
 #include <curses.h>
 
-Menu::Menu(int height, int width, std::vector<std::string> anchors)
-    : height_(height), width_(width), anchors_(std::move(anchors)),
-      current_selection_(FIRST_MENU_OPTION), menu_window_(nullptr) {
+Menu::Menu(int height, int width)
+    : height_(height), width_(width), current_selection_(FIRST_MENU_OPTION),
+      menu_window_(nullptr) {
 
     menu_window_ = new_boxed_window(height_, width_);
 
@@ -15,24 +15,15 @@ Menu::Menu(int height, int width, std::vector<std::string> anchors)
     }
 }
 
-MainMenu::MainMenu(int height, int width, std::vector<std::string> anchors)
-    : Menu(height, width, anchors) {}
+MainMenu::MainMenu(int height, int width) : Menu(height, width) {
+    anchors_ = {" New maze ", " Leaderboard ", " Exit "};
+}
 
-PauseMenu::PauseMenu(int height, int width, std::vector<std::string> anchors)
-    : Menu(height, width, anchors) {}
+PauseMenu::PauseMenu(int height, int width) : Menu(height, width) {
+    anchors_ = {" Continue ", " Quit "};
+}
 
 Menu::~Menu() {
-    if (menu_window_ != nullptr) {
-        delwin(menu_window_);
-    }
-}
-
-MainMenu::~MainMenu() {
-    if (menu_window_ != nullptr) {
-        delwin(menu_window_);
-    }
-}
-PauseMenu::~PauseMenu() {
     if (menu_window_ != nullptr) {
         delwin(menu_window_);
     }
@@ -63,7 +54,7 @@ void MainMenu::run() {
         }
     }
 }
-bool PauseMenu::exit() {
+bool PauseMenu::run() {
     if (menu_window_ == nullptr) {
         return true;
     }

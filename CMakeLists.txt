@@ -38,8 +38,7 @@ if (WIN32)
         message(FATAL_ERROR "PDCURSES_DIR is not set. Use the python build script.")
     endif()
 
-    target_include_directories(your_game_target PRIVATE ${PDCURSES_DIR})
-    
+    target_include_directories(your_game_target PRIVATE ${PDCURSES_DIR})   
     target_link_libraries(your_game_target PRIVATE ${PDCURSES_DIR}/wincon/pdcurses.a)
 else()
     set(CURSES_NEED_NCURSES TRUE)

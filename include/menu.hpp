@@ -7,7 +7,7 @@
 
 class Menu {
   public:
-    Menu(int height, int width, std::vector<std::string> anchors);
+    Menu(int height, int width);
 
     ~Menu();
 
@@ -32,17 +32,15 @@ class Menu {
 
 class MainMenu : public Menu {
   public:
-    MainMenu(int height, int width, std::vector<std::string> anchors);
-    ~MainMenu();
+    MainMenu(int height, int width);
     void run();
 };
 
 class PauseMenu : public Menu {
   public:
-    PauseMenu(int height, int width, std::vector<std::string> anchors);
-    ~PauseMenu();
+    PauseMenu(int height, int width);
 
-    bool exit();
+    bool run();
 };
 
 #endif // MENU_H

@@ -69,9 +69,9 @@ void update_window(WINDOW* game_window, int dir, pair& player) {
 }
 
 bool pause_menu() {
-    std::vector<std::string> anchors = {" Continue ", " Quit "};
-    PauseMenu pause(9, 14, anchors);
-    return pause.exit();
+
+    PauseMenu pause(9, 14);
+    return pause.run();
 }
 
 void game() {
