@@ -1,6 +1,7 @@
 #include "utilities.hpp"
 #include <curses.h>
 #include <map>
+#include <random>
 #include <vector>
 
 #define TOP_LEFT_CORNER 1
@@ -54,10 +55,21 @@ class dsu {
     }
 };
 
-// Turns the game view in a grid where every free cell is surrounded by walls.
-// Adds the walls to a map mid-process in preparation for Kruskal's algorithm
-void gridify(WINDOW* game_window, std::vector<pair>& walls);
+class MazeGenerator {
+  public:
+    // Constructor takes the window where the maze will be drawn
+    explicit MazeGenerator(WINDOW* game_window);
 
-pair maze(WINDOW* game_window);
+    // Generates the maze and returns the start and end markers (y-coordinates)
+    pair generate();
 
-pair start_end_markers(WINDOW* game_window);
+  private:
+    WINDOW* game_window_;
+    std::vector<pair> walls_;
+    std::mt19937 generator_; // Stored as a member so it's only seeded once
+
+    // Internal helper methods
+    void gridify();
+    void kruskal();
+    pair start_end_markers();
+};
