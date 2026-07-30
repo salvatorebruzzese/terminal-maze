@@ -13,7 +13,7 @@ constexpr int GAME_WIDTH_NO_BORDERS = GAME_WIDTH - 2;
 constexpr int MAX_USERNAME_LENGTH = 14; // Maximum permitted username length.
 
 // Returns the starting x-coordinate to center a string.
-int calculate_starting_x(int width, const char* str);
+int calculate_starting_x(const int width, const int len);
 
 // Function to initialize curses.
 void init_curses();

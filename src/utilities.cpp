@@ -18,14 +18,14 @@ using std::string;
 
 namespace fs = std::filesystem;
 
-int calculate_starting_x(int width, const char* str) {
-    return width / 2 - strlen(str) / 2;
+int calculate_starting_x(const int width, const int len) {
+    return width / 2 - len / 2;
 }
 
 void init_curses() {
     setlocale(LC_ALL, "");
     if (!initscr()) {
-        fprintf(stderr, "Failed to initialize curses\n");
+        fprintf(stderr, "Failed to initialize ncurses\n");
         exit(1);
     }
 
