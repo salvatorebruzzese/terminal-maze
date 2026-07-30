@@ -76,7 +76,7 @@ void game() {
     if (!game_window) {
         endwin();
         fprintf(stderr, "Unable to create game window\n");
-        exit(4);
+        exit(1);
     };
 
     MazeGenerator maze(game_window);

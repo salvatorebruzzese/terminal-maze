@@ -20,7 +20,7 @@ std::string ask_username() {
     if (!username_window) {
         endwin();
         fprintf(stderr, "Unable to create username acquisition window\n");
-        exit(2);
+        exit(1);
     }
 
     mvwprintw(username_window, DIALOGUE_ROW, DIALOGUE_COL, "Enter username");
@@ -48,7 +48,7 @@ std::string ask_username() {
     if (rc == ERR) {
         endwin();
         fprintf(stderr, "Unable to get username std::string\n");
-        exit(3);
+        exit(1);
     }
 
     werase(username_window);

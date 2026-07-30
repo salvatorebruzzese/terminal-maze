@@ -1,30 +1,22 @@
 # Terminal Maze
 
 A terminal-based game to solve mazes, written in C++.
-Developed and targeted for Windows and Linux on AMD64 architectures.
+It certainly works on Linux, as the last development stages were done on it, but it should also compile and work on windows too.
+I completed this project over the course of one year, without particular regards to design patterns or anything else. I hope you like it!
 
 ## Build and dependencies
 
-Make sure you have installed on your system:
+Make sure you have installed on your system recent versions of:
 
 - The GCC C++ Compiler.
 - CMake.
-- A Python interpreter.
+- The Python interpreter.
 
 Build with the following command:
 
 ```bash
 python build.py
 ```
-
-## Error Codes
-
-The program uses `exit()` to stop when critical errors occur.
-
-- `exit(1)`: Failed to initialize curses.
-- `exit(2)`: Unable to create username acquisition window.
-- `exit(3)`: Unable to get username `std::string`.
-- `exit(4)`: Unable to create game window.
 
 ## License
 

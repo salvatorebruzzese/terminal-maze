@@ -17,7 +17,6 @@ if (sys.platform == 'win32'):
 
     pdcurses_dir = 'PDCurses'
 
-    # Download PDCurses
     if not os.path.exists(pdcurses_dir):
         print("Downloading PDCurses...")
         try: 
@@ -29,7 +28,6 @@ if (sys.platform == 'win32'):
     else:
         print('PDCurses already downloaded.')
 
-    # Build PDCurses
     print("Building PDCurses...")
     wincon_dir = os.path.join(pdcurses_dir, 'wincon')
     try:
@@ -41,7 +39,6 @@ if (sys.platform == 'win32'):
         print("Error message:", e.stderr)
         sys.exit(1)
 
-    # Configure CMake
     try:
         subprocess.run(['cmake', '-S', '.', '-B', 'build', f'-DPDCURSES_DIR={pdcurses_dir}'], capture_output=True, text=True, check=True)
         print('CMake configured successfully.')
