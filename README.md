@@ -1,8 +1,8 @@
 # Terminal Maze
 
 A terminal-based game to solve mazes, written in C++.
-It certainly works on Linux, as the last development stages were done on it, but it should also compile and work on windows too.
-I completed this project over the course of one year, without particular regards to design patterns or anything else. I hope you like it!
+It certainly works on Linux, as the final stages of development were done on it, but it should compile and work on Windows too.
+I completed this project over the course of one year, without particular regard for design patterns or anything else. I hope you like it!
 
 ## Build and dependencies
 
