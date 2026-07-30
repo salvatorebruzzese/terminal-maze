@@ -28,8 +28,8 @@ int get_input(WINDOW* game_window) {
     if (input == KEY_UP || input == KEY_DOWN || input == KEY_LEFT ||
         input == KEY_RIGHT)
         return input;
-    else if (input == 'p' || input == 'P')
-        return 'p';
+    else if (input == 'q' || input == 'Q')
+        return 'q';
     else
         return ERR;
 }
@@ -68,12 +68,6 @@ void update_window(WINDOW* game_window, int dir, pair& player) {
     wrefresh(game_window);
 }
 
-bool pause_menu() {
-
-    PauseMenu pause(9, 14);
-    return pause.run();
-}
-
 void game() {
     const std::string current_player = ask_username();
 
@@ -104,12 +98,12 @@ void game() {
         score = timer(game_window, start);
 
         int input = get_input(game_window);
-        if (input != ERR && input != 'p')
+        if (input != ERR && input != 'q')
             update_window(game_window, input, player);
-        else if (input == 'p' && pause_menu() == true)
+        else if (input == 'q') {
+            PauseMenu(5, 14).run();
             break;
-        else
-            continue;
+        }
     }
 
     keypad(game_window, false);

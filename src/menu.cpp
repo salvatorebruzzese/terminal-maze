@@ -20,7 +20,7 @@ MainMenu::MainMenu(int height, int width) : Menu(height, width) {
 }
 
 PauseMenu::PauseMenu(int height, int width) : Menu(height, width) {
-    anchors_ = {" Continue ", " Quit "};
+    anchors_ = {" Quit "};
 }
 
 Menu::~Menu() {
@@ -54,18 +54,13 @@ void MainMenu::run() {
         }
     }
 }
-bool PauseMenu::run() {
+void PauseMenu::run() {
     if (menu_window_ == nullptr) {
-        return true;
+        return;
     }
-
-    if (handle_selection() == 0) {
-        wclear(menu_window_);
-        wrefresh(menu_window_);
-        return false;
-    } else {
-        return true;
-    }
+    handle_selection();
+    wclear(menu_window_);
+    wrefresh(menu_window_);
 }
 
 int Menu::handle_selection() {

@@ -14,6 +14,8 @@ class Menu {
     Menu(const Menu&) = delete;
     Menu& operator=(const Menu&) = delete;
 
+    virtual void run() = 0;
+
   protected:
     static constexpr int FIRST_MENU_OPTION = 0;
     static constexpr int TOP_BOTTOM_BORDERS = 2;
@@ -33,14 +35,17 @@ class Menu {
 class MainMenu : public Menu {
   public:
     MainMenu(int height, int width);
-    void run();
+    void run() override;
 };
 
 class PauseMenu : public Menu {
   public:
     PauseMenu(int height, int width);
 
-    bool run();
+    void run() override;
+
+  protected:
+    WINDOW* back_window;
 };
 
 #endif // MENU_H
