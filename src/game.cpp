@@ -10,15 +10,15 @@
 #include <string>
 #include <time.h>
 
-#define CLOCK_X (GAME_WIDTH - 10)
-#define CLOCK_Y 0
-
 int timer(WINDOW* game_window, std::time_t start) {
     int elapsed = difftime(std::time(nullptr), start);
 
-    std::string elapsed_str = std::to_string(elapsed);
+    std::string elapsed_str = " Time: ";
+    elapsed_str.append(std::to_string(elapsed));
 
-    mvwprintw(game_window, CLOCK_Y, CLOCK_X, "Time: %s", elapsed_str.c_str());
+    mvwprintw(game_window, 0,
+              calculate_starting_x(GAME_WIDTH, elapsed_str.size()), "%s ",
+              elapsed_str.c_str());
     wrefresh(game_window);
     return elapsed;
 }

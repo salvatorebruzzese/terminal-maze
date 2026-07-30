@@ -59,8 +59,6 @@ void PauseMenu::run() {
         return;
     }
     handle_selection();
-    wclear(menu_window_);
-    wrefresh(menu_window_);
 }
 
 int Menu::handle_selection() {
