@@ -2,7 +2,7 @@
 #define RANKING_H
 
 #include "curses.h"
-#include "nlohmann/json.hpp"
+#include "nlohmann/json_fwd.hpp"
 #include <string>
 
 // Creates a window that shows the data in data.json.

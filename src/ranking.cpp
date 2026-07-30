@@ -19,7 +19,7 @@ constexpr int RANKING_WIDTH = 20;  // The width of the ranking window.
 constexpr int PLAYERS_PRINT_COL =
     3; // The column where player names are printed.
 constexpr int PLAYERS_PRINT_ROW = 2; // The row where player names are printed.
-const char* TOP_TEN = " Top 10 ";
+constexpr std::string TOP_TEN = " Top 10 ";
 
 void show_ranking() {
 
@@ -60,8 +60,9 @@ void print_top_ten(WINDOW* ranking_window, const json& object) {
     int number_of_cycles = 0;
     int current_row = PLAYERS_PRINT_ROW;
 
-    mvwprintw(ranking_window, 0, calculate_starting_x(RANKING_WIDTH, TOP_TEN),
-              "%s", TOP_TEN);
+    mvwprintw(ranking_window, 0,
+              calculate_starting_x(RANKING_WIDTH, TOP_TEN.size()), "%s",
+              TOP_TEN.c_str());
 
     while (it != object.end() && number_of_cycles < 10) {
 
@@ -111,7 +112,7 @@ void show_error(const string& error) {
 
     WINDOW* error_window = new_boxed_window(POPUP_HEIGHT, POPUP_WIDTH);
     mvwprintw(error_window, WARNING_ROW,
-              calculate_starting_x(POPUP_WIDTH, error.c_str()), "%s",
+              calculate_starting_x(POPUP_WIDTH, error.size()), "%s",
               error.c_str());
     wgetch(error_window);
     delwin(error_window);
