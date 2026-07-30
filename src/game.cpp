@@ -1,7 +1,9 @@
 #include "game.hpp"
 #include "curses.h"
 #include "maze.hpp"
+#include "menu.hpp"
 #include "ranking.hpp"
+#include "username.hpp"
 #include "utilities.hpp"
 #include <cstdio>
 #include <cstdlib>
@@ -22,9 +24,12 @@ int timer(WINDOW* game_window, std::time_t start) {
 }
 
 int get_input(WINDOW* game_window) {
-    int dir = wgetch(game_window);
-    if (dir == KEY_UP || dir == KEY_DOWN || dir == KEY_LEFT || dir == KEY_RIGHT)
-        return dir;
+    int input = wgetch(game_window);
+    if (input == KEY_UP || input == KEY_DOWN || input == KEY_LEFT ||
+        input == KEY_RIGHT)
+        return input;
+    else if (input == 'p' || input == 'P')
+        return 'p';
     else
         return ERR;
 }
@@ -63,7 +68,15 @@ void update_window(WINDOW* game_window, int dir, pair& player) {
     wrefresh(game_window);
 }
 
-void game(const std::string& current_player) {
+bool pause_menu() {
+    std::vector<std::string> anchors = {" Continue ", " Quit "};
+    PauseMenu pause(9, 14, anchors);
+    return pause.exit();
+}
+
+void game() {
+    const std::string current_player = ask_username();
+
     WINDOW* game_window = new_boxed_window(GAME_HEIGHT, GAME_WIDTH);
 
     if (!game_window) {
@@ -71,7 +84,9 @@ void game(const std::string& current_player) {
         fprintf(stderr, "Unable to create game window\n");
         exit(4);
     };
-    pair markers = maze(game_window);
+
+    MazeGenerator maze(game_window);
+    pair markers = maze.generate();
     pair player = {markers.first, FIRST_COLUMN};
 
     std::time_t start = std::time(nullptr);
@@ -81,21 +96,23 @@ void game(const std::string& current_player) {
 
     wtimeout(game_window, 200);
     while (true) {
-        if (player.first == markers.second && player.second == LAST_COLUMN)
+        if (player.first == markers.second && player.second == LAST_COLUMN) {
+            update_ranking(current_player, score);
             break;
+        }
 
         score = timer(game_window, start);
 
-        int dir = get_input(game_window);
-        if (dir != ERR)
-            update_window(game_window, dir, player);
+        int input = get_input(game_window);
+        if (input != ERR && input != 'p')
+            update_window(game_window, input, player);
+        else if (input == 'p' && pause_menu() == true)
+            break;
         else
             continue;
     }
 
     keypad(game_window, false);
-
-    update_ranking(current_player, score);
     wgetch(game_window);
     wclear(game_window);
     wrefresh(game_window);

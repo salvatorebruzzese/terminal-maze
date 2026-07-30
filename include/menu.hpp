@@ -3,28 +3,46 @@
 
 #include "curses.h"
 #include <string>
+#include <vector>
 
-// Wrapper function that contains menu logic.
-void menu(std::string current_player);
+class Menu {
+  public:
+    Menu(int height, int width, std::vector<std::string> anchors);
 
-/**
- * @brief Function to select one of the options on the menu.
- *
- * @param current_selection     The index of the current selected
- *                              option in the anchors[] array.
- * @param menu_window           Pointer to the menu window.
- * @return                      Index of the current selected option in
- *                              the anchors[] array in visualize_menu().
- */
-int menu_selection(int current_selection, WINDOW* menu_window);
+    ~Menu();
 
-/**
- * @brief Function to visualize the menu on the terminal.
- *
- * @param current_selection     The index of the current selected
- *                              option in the anchors[] array.
- * @param menu_window           Pointer to the menu window.
- */
-void visualize_menu(int current_selection, WINDOW* menu_window);
+    Menu(const Menu&) = delete;
+    Menu& operator=(const Menu&) = delete;
+
+  protected:
+    static constexpr int FIRST_MENU_OPTION = 0;
+    static constexpr int TOP_BOTTOM_BORDERS = 2;
+
+    std::string current_player_;
+    int height_;
+    int width_;
+    std::vector<std::string> anchors_;
+    WINDOW* menu_window_;
+    int current_selection_;
+
+    int handle_selection();
+    void visualize() const;
+    int wrap(int selected, int options) const;
+};
+
+class MainMenu : public Menu {
+  public:
+    MainMenu(int height, int width, std::vector<std::string> anchors);
+    ~MainMenu();
+    void run();
+};
+
+class PauseMenu : public Menu {
+  public:
+    PauseMenu(int height, int width, std::vector<std::string> anchors);
+    ~PauseMenu();
+
+    bool exit();
+};
 
 #endif // MENU_H

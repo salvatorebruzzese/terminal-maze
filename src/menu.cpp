@@ -1,96 +1,130 @@
 #include "menu.hpp"
-#include "curses.h"
 #include "game.hpp"
 #include "ranking.hpp"
 #include "utilities.hpp"
-#include <string>
+#include <curses.h>
 
-constexpr int NUM_MENU_OPTIONS = 3;
-constexpr int FIRST_MENU_OPTION = 0;
-constexpr int LAST_MENU_OPTION = NUM_MENU_OPTIONS - 1;
-constexpr int TOP_BOTTOM_BORDERS = 2;
-constexpr int MENU_HEIGHT = 15;
-constexpr int MENU_WIDTH = 30;
+Menu::Menu(int height, int width, std::vector<std::string> anchors)
+    : height_(height), width_(width), anchors_(std::move(anchors)),
+      current_selection_(FIRST_MENU_OPTION), menu_window_(nullptr) {
 
-void menu(std::string current_player) {
+    menu_window_ = new_boxed_window(height_, width_);
 
-    int current_selection = 0;
-    WINDOW* menu_window = new_boxed_window(MENU_HEIGHT, MENU_WIDTH);
-
-    if (menu_window == nullptr)
-        return;
-
-    keypad(menu_window, true);
-
-    while (true) {
-        current_selection = menu_selection(current_selection, menu_window);
-        switch (current_selection) {
-        case 0:
-            game(current_player);
-            wrefresh(menu_window);
-            break;
-        case 1:
-            show_ranking();
-            wrefresh(menu_window);
-            break;
-        case 2:
-            delwin(menu_window);
-            return;
-        }
+    if (menu_window_ != nullptr) {
+        keypad(menu_window_, true);
     }
 }
 
-int menu_selection(int current_selection, WINDOW* menu_window) {
+MainMenu::MainMenu(int height, int width, std::vector<std::string> anchors)
+    : Menu(height, width, anchors) {}
 
-    // Menu wrap-around logic; ensures non-negative result even if selected < 0.
-    auto wrap = [](int selected, int options) -> int {
-        return ((selected % options) + options) % options;
-    };
+PauseMenu::PauseMenu(int height, int width, std::vector<std::string> anchors)
+    : Menu(height, width, anchors) {}
 
+Menu::~Menu() {
+    if (menu_window_ != nullptr) {
+        delwin(menu_window_);
+    }
+}
+
+MainMenu::~MainMenu() {
+    if (menu_window_ != nullptr) {
+        delwin(menu_window_);
+    }
+}
+PauseMenu::~PauseMenu() {
+    if (menu_window_ != nullptr) {
+        delwin(menu_window_);
+    }
+}
+
+void MainMenu::run() {
+    if (menu_window_ == nullptr) {
+        return;
+    }
+
+    bool exit_menu = false;
+
+    while (!exit_menu) {
+        current_selection_ = handle_selection();
+
+        switch (current_selection_) {
+        case 0:
+            game();
+            wrefresh(menu_window_);
+            break;
+        case 1:
+            show_ranking();
+            wrefresh(menu_window_);
+            break;
+        case 2:
+            exit_menu = true;
+            break;
+        }
+    }
+}
+bool PauseMenu::exit() {
+    if (menu_window_ == nullptr) {
+        return true;
+    }
+
+    if (handle_selection() == 0) {
+        wclear(menu_window_);
+        wrefresh(menu_window_);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+int Menu::handle_selection() {
     while (true) {
-        visualize_menu(current_selection, menu_window);
-        int new_selection = wgetch(menu_window);
+        visualize();
+        int new_selection = wgetch(menu_window_);
 
         switch (new_selection) {
         case KEY_UP:
-            current_selection = wrap(current_selection - 1, NUM_MENU_OPTIONS);
+            current_selection_ = wrap(current_selection_ - 1, anchors_.size());
             break;
         case KEY_DOWN:
-            current_selection = wrap(current_selection + 1, NUM_MENU_OPTIONS);
+            current_selection_ = wrap(current_selection_ + 1, anchors_.size());
             break;
         // The implementation of KEY_ENTER is unreliable in PDCurses 3.9.
         case KEY_ENTER:
         case '\n':
         case '\r':
-            return current_selection;
+            return current_selection_;
         }
     }
 }
 
-void visualize_menu(int current_selection, WINDOW* menu_window) {
+void Menu::visualize() const {
+    int y_position = height_ / (anchors_.size() + TOP_BOTTOM_BORDERS);
 
-    static std::string anchors[NUM_MENU_OPTIONS] = {"New maze", "Leaderboard",
-                                                    "Exit"};
+    wclear(menu_window_);
 
-    int y_position = MENU_HEIGHT / (NUM_MENU_OPTIONS + TOP_BOTTOM_BORDERS);
+    wattron(menu_window_, A_REVERSE);
+    wborder(menu_window_, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+    wattroff(menu_window_, A_REVERSE);
 
-    wclear(menu_window);
-
-    wattron(menu_window, A_REVERSE);
-    wborder(menu_window, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-    wattroff(menu_window, A_REVERSE);
-
-    for (int i = FIRST_MENU_OPTION; i <= LAST_MENU_OPTION; i++) {
-        if (current_selection == i)
-            wattron(menu_window, A_REVERSE);
+    for (int i = FIRST_MENU_OPTION; i < anchors_.size(); i++) {
+        if (current_selection_ == i) {
+            wattron(menu_window_, A_REVERSE);
+        }
 
         // Moving the cursor to the left to center the option string.
-        wmove(menu_window, y_position * (i + 1) + 1,
-              calculate_starting_x(MENU_WIDTH, anchors[i].c_str()));
-        wprintw(menu_window, "%s", anchors[i].c_str());
+        wmove(menu_window_, y_position * (i + 1) + 1,
+              calculate_starting_x(width_, anchors_[i].size()));
+        wprintw(menu_window_, "%s", anchors_[i].c_str());
 
-        wattroff(menu_window, A_REVERSE);
+        if (current_selection_ == i) {
+            wattroff(menu_window_, A_REVERSE);
+        }
     }
 
-    wrefresh(menu_window);
+    wrefresh(menu_window_);
+}
+
+int Menu::wrap(int selected, int options) const {
+    return ((selected % options) + options) % options;
 }

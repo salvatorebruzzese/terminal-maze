@@ -1,14 +1,18 @@
 #include "curses.h"
 #include "menu.hpp"
-#include "username.hpp"
 #include "utilities.hpp"
 #include <string>
 
-int main(int argc, char** argv) {
+constexpr int MENU_HEIGHT = 15;
+constexpr int MENU_WIDTH = 30;
+
+int main(void) {
     init_curses();
 
-    std::string current_player = ask_username();
-    menu(current_player);
+    std::vector<std::string> anchors = {
+        {" New maze ", " Leaderboard ", " Exit "}};
+    MainMenu menu(MENU_HEIGHT, MENU_WIDTH, anchors);
+    menu.run();
 
     endwin();
 }

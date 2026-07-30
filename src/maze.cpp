@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <stdexcept>
 
-
 MazeGenerator::MazeGenerator(WINDOW* game_window)
     : game_window_(game_window), generator_(std::random_device{}()) {}
 
